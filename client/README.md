@@ -30,6 +30,9 @@ npm install @imagekit/react
 npm install @clerk/clerk-react
 npm i motion clsx tailwind-merge
 npm i react-quill-new 
+npm i svix
+npm i body-parser
+npm i @clerk/express
 
 2. Run development server
 
