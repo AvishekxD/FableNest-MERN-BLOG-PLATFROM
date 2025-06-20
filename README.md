@@ -1,4 +1,4 @@
-# MERN Blogging Platform 📝
+# FableNest - MERN Blogging Platform 📝
 
 FableNest : A full-featured blogging platform built using the MERN stack (MongoDB, Express.js, React.js, Node.js). This project allows users to create, read, update, and delete blog posts with a seamless user experience.
 
