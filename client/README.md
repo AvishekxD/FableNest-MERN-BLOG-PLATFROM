@@ -33,6 +33,11 @@ npm i react-quill-new
 npm i svix
 npm i body-parser
 npm i @clerk/express
+npm i @tanstack/react-query
+npm i axios
+npm i cors
+npm i react-toastify
+
 
 2. Run development server
 
