@@ -23,7 +23,7 @@
 cd client
 npm install 
 
-2. Other dependencies Used 
+2. Other dependencies and component Used
 
 npm i react-router-dom
 npm install @imagekit/react
@@ -37,6 +37,8 @@ npm i @tanstack/react-query
 npm i axios
 npm i cors
 npm i react-toastify
+npm i react-infinite-scroll-component
+npm i timeago.js
 
 
 2. Run development server
