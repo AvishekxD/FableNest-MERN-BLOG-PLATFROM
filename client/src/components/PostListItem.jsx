@@ -7,7 +7,7 @@ const PostListItem = ({ post }) => {
         <div className="flex flex-col xl:flex-row gap-8 mb-12">
             
         {post.img && <div className="md:hidden xl:block xl:w-2/3">
-                <Imag src={post.img} className="rounded-2xl object-cover" w="750"/>
+                <Imag src={post.img} className="rounded-2xl object-cover" w="750" h="470"/>
             </div>}
             
             <div className="flex flex-col gap-4 xl:w-3/3">

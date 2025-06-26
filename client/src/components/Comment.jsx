@@ -1,15 +1,16 @@
-import Imag from "./Imag"
+import Imag from "./Imag";
+import { format } from "timeago.js";
 
-const Comment = () => {
+const Comment = ({ comment }) => {
   return (
-    <div className="p-4 bg-[var(--secondary)] rounded-xl mb-7">
+    <div className="p-4 bg-[var(--secondary)] rounded-xl mb-5">
         <div className="flex items-center gap-4">
-            <Imag src="UserImage.jpg" className="w-10 h-10 rounded-full object-cover" w="40"/>
-            <span className="font-medium">John Doe</span>
-            <span>2 Days ago</span>
+            { comment.user.Img && ( <Imag src={comment.user.Img} className="w-10 h-10 rounded-full object-cover" w="40"/>)}
+            <span className="font-medium">{comment.user.username}</span>
+            <span>{format(comment.createdAt)}</span>
         </div>
         <div className="mt-4">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis nostrum ex reprehenderit. Lorem, ipsum dolor.</p>
+            <p>{comment.desc}</p>
         </div>
     </div>
   )
