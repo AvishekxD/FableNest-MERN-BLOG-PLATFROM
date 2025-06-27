@@ -71,22 +71,29 @@ const Comments = ({ postId }) => {
               <button className="bg-[var(--secondary)] hover:bg-[var(--Accent2)] font-medium rounded-xl px-10 py-4 cursor-pointer duration-200 hover:scale-105">Send</button>
             </div>
           </form>
-        
-        {mutation.isPending && (
-          <Comment
-            comment={{
-              desc: `${mutation.variables.desc} (Sending...)`,
-              createdAt: new Date(),
-              user: {
-                img: user.imageUrl,
-                username: user.username,
-              },
-            }}
-          />
+        {isPending ? (
+            "Loading..." 
+            ) : error ? (
+            "Error loading comments!"
+          ) : (
+          <>
+            {mutation.isPending && (
+              <Comment
+                comment={{
+                  desc: `${mutation.variables.desc} (Sending...)`,
+                  createdAt: new Date(),
+                  user: {
+                    img: user.imageUrl,
+                    username: user.username,
+                  },
+                }}
+              />
+            )}
+            {data.map((comment) => (
+              <Comment key={comment._id} comment={comment} postId={postId} />
+            ))}
+          </>
         )}
-        {isPending ? "Loading..." : error ? "Error loading comments!" : data.map((comment) => (
-          <Comment key={comment._id} comment={comment} postId={postId} />
-        ))}
     </div>
   )
 }

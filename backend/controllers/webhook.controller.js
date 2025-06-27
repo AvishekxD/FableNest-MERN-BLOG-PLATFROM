@@ -32,6 +32,18 @@ export const clerkwebhook = async (req, res) =>{
 
         await newUser.save()
     }
+
+    if (evt.type === "user.updated") {
+        await User.findOneAndUpdate(
+            { clerkUserId: evt.data.id },
+                {
+                    username: evt.data.username || evt.data.email_addresses[0].email_address,
+                    email: evt.data.email_addresses[0].email_address,
+                    img: evt.data.profile_img_url,
+                },
+            { new: true }
+        );
+    }
     return res.status(200).json({
         message: "Webhook received",
     });
