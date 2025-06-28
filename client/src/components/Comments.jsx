@@ -61,7 +61,7 @@ const Comments = ({ postId }) => {
 
   return (
     <div className="flex flex-col gap-8 lg:w-3/5 mb-12">
-        <h1 className="text-xll text-[var(--Accent)] underline">Comments</h1>
+        <h1 className="text-xl text-[var(--Accent)] underline">Comments</h1>
           <form
             onSubmit={handleSubmit}
             className="flex items-center justify-between gap-8 w-full"
@@ -76,7 +76,7 @@ const Comments = ({ postId }) => {
             ) : error ? (
             "Error loading comments!"
           ) : (
-          <>
+           <>
             {mutation.isPending && (
               <Comment
                 comment={{
@@ -89,6 +89,7 @@ const Comments = ({ postId }) => {
                 }}
               />
             )}
+
             {data.map((comment) => (
               <Comment key={comment._id} comment={comment} postId={postId} />
             ))}

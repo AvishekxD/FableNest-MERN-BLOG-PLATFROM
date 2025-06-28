@@ -8,7 +8,7 @@ const PostListPage = () => {
 
   return (
     <div className="">
-      <h1 className="mb-8 text-2xl">Development Blog</h1>
+      <h1 className="mb-8 text-2xl"></h1>
       <button 
         onClick={()=> setOpen((prev) => !prev)} 
         className="md:hidden bg-[var(--secondary)] hover:bg-[var(--Accent2)] hover:scale-105 duration-200 text-sm text-white px-4 py-2 rounded-2xl mb-4">

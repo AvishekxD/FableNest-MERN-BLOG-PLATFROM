@@ -4,10 +4,10 @@ import { format } from "timeago.js";
 
 const PostListItem = ({ post }) => {
     return (
-        <div className="flex flex-col xl:flex-row gap-8 mb-12">
+        <div className="flex flex-col xl:flex-row gap-6 mb-12">
             
-        {post.img && <div className="md:hidden xl:block xl:w-2/3">
-                <Imag src={post.img} className="rounded-2xl object-cover" w="750" h="470"/>
+        {post.img && <div className=" xl:block xl:w-3/3">
+                <Imag src={post.img} className="rounded-2xl object-cover" w="710" h="470"/>
             </div>}
             
             <div className="flex flex-col gap-4 xl:w-3/3">
@@ -21,7 +21,7 @@ const PostListItem = ({ post }) => {
                     <Link className="text-zinc-200">{post.category}</Link>
                     <span>{format(post.createdAt)}</span>
                 </div>
-                <p>{post.desc}</p>
+                <p className="line-clamp-3">{post.desc}</p>
                 <Link to={`/${post.slug}`} className="underline text-indigo-200 text-sm">Read More</Link>
             </div>
         </div>

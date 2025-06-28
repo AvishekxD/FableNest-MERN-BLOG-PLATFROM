@@ -33,8 +33,8 @@ const Navbar = () => {
                 <div className={`w-full h-screen flex flex-col items-center justify-center z-10 absolute top-16 bg-[var(--primary)] transition-all ease-in-out gap-8
                     font-medium text-lg ${open ? "-right-0" : "-right-[100%]"}`}>
                     <Link to="/">Home</Link>
-                    <Link to="/">Trending</Link>
-                    <Link to="/">Most Popular</Link>
+                    <Link to="/posts?sort=trending">Trending</Link>
+                    <Link to="/posts?sort=popular">Most Popular</Link>
                     <Link to="/">About</Link>
                     <Link to="/">
                         <button className="py-2 px-4 rounded-2xl bg-[var(--secondary)] text-white border-[1px] border-[var(--ring)] cursor-pointer">
@@ -45,8 +45,8 @@ const Navbar = () => {
             </div>
             <div className="hidden md:flex items-center gap-8 xl:gap-12 font-medium ">
                 <Link to="/">Home</Link>
-                <Link to="/">Trending</Link>
-                <Link to="/">Most Popular</Link>
+                <Link to="/posts?sort=trending">Trending</Link>
+                <Link to="/posts?sort=popular">Most Popular</Link>
                 <Link to="/">About</Link>
                 <SignedOut>
                     <Link to="/login">

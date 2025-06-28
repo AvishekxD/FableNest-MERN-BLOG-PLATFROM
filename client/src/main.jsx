@@ -70,5 +70,5 @@ createRoot(document.getElementById('root')).render(
         <ToastContainer position='bottom-right'/>
       </QueryClientProvider>
     </ClerkProvider>
-  </StrictMode>,
+  </StrictMode>
 )

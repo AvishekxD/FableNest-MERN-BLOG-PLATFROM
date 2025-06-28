@@ -7,7 +7,7 @@ import PostList from "../components/PostList"
 const HomePage = () => {
   return (
     
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       {/* BREADCRUMB */}
       <div className="flex gap-4">
         <Link to="/">Home</Link>
@@ -27,7 +27,7 @@ const HomePage = () => {
           </p>
         </div>
         {/* desktop And large screen animated button */}
-        <Link to="write" className="relative mt-6 hidden md:block tracking-wide">
+        <Link to="write" className="relative mt-6 hidden md:block tracking-wide ">
           <button className="spark-button cursor-pointer">
             <div className="spark"></div>
             <div className="backdrop group-hover:bg-neutral-900"></div>
