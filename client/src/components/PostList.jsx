@@ -44,8 +44,8 @@ const PostList = () => {
       hasMore={!!hasNextPage}
       loader={<h4>Loading more posts...</h4>}
       endMessage={
-        <p>
-          <b>Yay! You have seen it all</b>
+        <p className="py-6">
+          <b>That’s all for now — check back soon for more!</b>
         </p>
       }
       >

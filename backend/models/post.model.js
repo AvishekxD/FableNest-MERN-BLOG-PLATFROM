@@ -38,7 +38,7 @@ const postSchema = new Schema(
         visit: {
             type: Number,
             default: 0,
-        }
+        },
     },
  {timestamps: true }
 );

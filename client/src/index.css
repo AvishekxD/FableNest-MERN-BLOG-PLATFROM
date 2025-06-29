@@ -11,6 +11,7 @@ body{
     --primary: oklch(0 0 0);
     --secondary: oklch(0.25 0 0);
     --secondary2: oklch(0.22 0 0);
+    --secondary3: oklch(13.979% 0.00002 271.152);
     --ring: oklch(0.7200 0 0);
     --Accent: oklch(1.00 0 0);
     --Accent2: oklch(0.32 0 0);
@@ -117,4 +118,23 @@ body{
   background-color: #111111 !important;
   color: var(--Accent) !important;    
   border-radius: 0.5rem;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.34 0 0) oklch(0 0 0);
+  
+}
+
+/* Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+  width: 6px;
+}
+*::-webkit-scrollbar-track {
+  background: oklch(0 0 0);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: oklch(0.34 0 0);;
+  border-radius: 10px;
 }

@@ -19,14 +19,18 @@ export const getPosts = async (req, res) => {
   }
 
   if (searchQuery) {
-    query.title = { $regex: searchQuery, $options: "i" };
+    query.$or = [
+      { title: { $regex: searchQuery, $options: "i" } },
+      { desc: { $regex: searchQuery, $options: "i" } },
+      { content: { $regex: searchQuery, $options: "i" } },
+    ];
   }
 
   if (author) {
     const user = await User.findOne({ username: author }).select("_id");
 
     if (!user) {
-      return res.status(404).json("No post found!");
+      return res.status(404).json("No posts found for this author!");
     }
 
     query.user = user._id;
@@ -172,6 +176,20 @@ export const featurePost = async (req, res) => {
   );
 
   res.status(200).json(updatedPost);
+};
+
+export const increasePostViews = async (req, res) => {
+  try {
+    const post = await Post.findByIdAndUpdate(
+      req.params.id,
+      { $inc: { views: 1 } },
+      { new: true }
+    );
+    if (!post) return res.status(404).json("Post not found");
+    res.status(200).json(post.views);
+  } catch (err) {
+    res.status(500).json("Failed to increase views");
+  }
 };
 
 const imagekit = new ImageKit({

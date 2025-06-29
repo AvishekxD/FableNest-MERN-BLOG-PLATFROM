@@ -6,8 +6,10 @@ import {
     deletePost,
     uploadAuth,
     featurePost,
+    increasePostViews,
  } from "../controllers/post.controller.js";
 import increaseVisit from "../middlewares/increaseVisit.js";
+import { requireAuth } from "@clerk/express";
 
 const router = express.Router();
 
@@ -18,6 +20,7 @@ router.get("/:slug", increaseVisit, getPost);
 router.post("/", createPost);
 router.delete("/:id", deletePost);
 router.patch("/feature", featurePost)
+router.put("/view/:id", increasePostViews);
 
 
 

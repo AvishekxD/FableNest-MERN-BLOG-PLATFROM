@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import Post from "../models/post.model.js";
 import Comment from "../models/comment.model.js";
 import { Webhook } from "svix";
+import { clerkClient } from "@clerk/clerk-sdk-node";
 
 export const clerkWebHook = async (req, res) => {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
@@ -30,19 +31,61 @@ export const clerkWebHook = async (req, res) => {
 
   if (eventType === "user.created") {
     console.log("👤 Creating user:", eventData);
+    const profileImage =
+    eventData.image_url ||
+    eventData.profile_image_url ||
+    "https://i.stack.imgur.com/l60Hf.png";
 
     const newUser = new User({
       clerkUserId: eventData.id,
       username: eventData.username || eventData.email_addresses?.[0]?.email_address,
       email: eventData.email_addresses?.[0]?.email_address,
-      img: eventData.profile_image_url,
+      img: profileImage,
     });
 
     try {
-      await newUser.save();
-      console.log("✅ User saved to MongoDB:", newUser);
+      const savedUser = await newUser.save();
+      console.log("✅ User saved to MongoDB:", savedUser);
+
+      // ✅ Now update Clerk's publicMetadata with mongoId
+      await clerkClient.users.updateUserMetadata(eventData.id, {
+        publicMetadata: {
+          mongoId: savedUser._id.toString(),
+        },
+      });
+
+      console.log("🔗 Clerk user metadata updated with mongoId");
+
     } catch (err) {
-      console.error("❌ Error saving user:", err.message);
+      console.error("❌ Error saving user or updating metadata:", err.message);
+    } 
+  }
+
+  // ✅ NEW: Update user when profile info (like image) is changed
+  if (eventType === "user.updated") {
+    console.log("♻️ Updating user:", eventData);
+
+    try {
+      const updatedUser = await User.findOneAndUpdate(
+        { clerkUserId: eventData.id },
+        {
+          username: eventData.username || eventData.email_addresses?.[0]?.email_address,
+          email: eventData.email_addresses?.[0]?.email_address,
+          img:
+            eventData.image_url ||
+            eventData.profile_image_url ||
+            "https://i.stack.imgur.com/l60Hf.png",
+        },
+        { new: true }
+      );
+
+      if (updatedUser) {
+        console.log("✅ User updated in MongoDB:", updatedUser);
+      } else {
+        console.warn("⚠️ User not found to update in MongoDB");
+      }
+    } catch (err) {
+      console.error("❌ Error updating user:", err.message);
     }
   }
 
