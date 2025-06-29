@@ -78,12 +78,21 @@ client/
 │   │   ├── ui/
 │   │   │   ├── background-lines.jsx
 │   │   │   ├── FeaturedPosts.jsx
-│   │   │   ├── Imag.jsx
-│   │   │   ├── MainCategories.jsx
-│   │   │   ├── Navbar.jsx
-│   │   │   ├── PostList.jsx
-│   │   │   └── PostListItem.jsx
-│   │
+│   │   │   └── flip-words.jsx
+│   │   │ 
+│   │   ├── Comment.jsx
+│   │   ├── Comments.jsx
+│   │   ├── FeaturedPosts.jsx
+│   │   ├── Imag.jsx
+│   │   ├── MainCategories.jsx
+│   │   ├── Navbar.jsx
+│   │   ├── PostList.jsx
+│   │   ├── PostListItem.jsx
+│   │   ├── PostMenuActions.jsx
+│   │   ├── Search.jsx
+│   │   ├── SideMenu.jsx
+│   │   └── Upload.jsx
+│   │ 
 │   ├── layouts/
 │   │   └── MainLayout.jsx
 │   │
