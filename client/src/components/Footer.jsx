@@ -11,7 +11,7 @@ const Footer = () => {
     ];
     return (
         <footer className="bg-[var(--secondary3)] rounded-xl mb-12">
-            <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
                 <div className="flex justify-center">
                     <Link to="/" className="flex items-center gap-4 text-2xl font-bold">
                         <span>FableNest</span>
@@ -25,29 +25,14 @@ const Footer = () => {
 
                 <ul className="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
                 <li>
-                    <a
-                    className="text-gray-700 transition hover:text-gray-700/75 dark:text-white dark:hover:text-white/75"
-                    href="#"
-                    >
-                    About
-                    </a>
+                    <Link to="/about" className="transition duration-100 hover:ease-in hover:text-[var(--Accent4)]">About</Link>
                 </li>
                 <li>
-                    <a
-                    className="text-gray-700 transition hover:text-gray-700/75 dark:text-white dark:hover:text-white/75"
-                    href="/write"
-                    >
-                    Write your story
-                    </a>
+                    <Link to="/write" className="transition duration-100 hover:ease-in hover:text-[var(--Accent4)]">Write your story</Link>
                 </li>
 
                 <li>
-                    <a
-                    className="text-gray-700 transition hover:text-gray-700/75 dark:text-white dark:hover:text-white/75"
-                    href="/posts"
-                    >
-                    Blogs
-                    </a>
+                    <Link to="/posts" className="transition duration-100 hover:ease-in hover:text-[var(--Accent4)]">Blogs</Link>
                 </li>
                 </ul>
 

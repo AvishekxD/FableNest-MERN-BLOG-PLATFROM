@@ -20,6 +20,7 @@ import {
 } from '@tanstack/react-query'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import About from './routes/About.jsx'
 
 const queryClient = new QueryClient()
 
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
         {
           path: "/register",
           element: <RegisterPage/>,
+        },
+        {
+          path: "/about",
+          element: <About/>,
         },
     ]
   }
