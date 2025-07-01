@@ -36,6 +36,7 @@ const Navbar = () => {
                     <Link to="/posts?sort=trending" className="transition duration-100 hover:ease-in hover:text-[var(--Accent4)]">Trending</Link>
                     <Link to="/posts?sort=popular" className="transition duration-100 hover:ease-in hover:text-[var(--Accent4)]">Most Popular</Link>
                     <Link to="/about" className="transition duration-100 hover:ease-in hover:text-[var(--Accent4)]">About</Link>
+                    <Link to="/profile" className="transition duration-100 hover:ease-in hover:text-[var(--Accent4)]">Profile</Link>
                     <SignedOut>
                     <Link to="/login">
                             <button className="py-2 px-4 rounded-2xl bg-[var(--secondary)] text-white border-[1px] border-[var(--ring)] cursor-pointer">Login 👋🏻</button>
@@ -51,6 +52,7 @@ const Navbar = () => {
                 <Link to="/posts?sort=trending" className="transition duration-100 hover:ease-in hover:text-[var(--Accent4)]">Trending</Link>
                 <Link to="/posts?sort=popular" className="transition duration-100 hover:ease-in hover:text-[var(--Accent4)]">Most Popular</Link>
                 <Link to="/about" className="transition duration-100 hover:ease-in hover:text-[var(--Accent4)]">About</Link>
+                <Link to="/profile" className="transition duration-100 hover:ease-in hover:text-[var(--Accent4)]">Profile</Link>
                 <SignedOut>
                     <Link to="/login">
                         <button className="py-2 px-4 rounded-2xl bg-[var(--secondary)] text-white border-[1px] border-[var(--ring)] cursor-pointer">Login 👋🏻</button>

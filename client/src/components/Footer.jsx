@@ -19,18 +19,20 @@ const Footer = () => {
                     </Link>
                 </div>
 
-                <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500 dark:text-gray-400">
+                <div className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500 dark:text-gray-400">
                     <FlipWords words={words}/>
-                </p>
+                </div>
 
                 <ul className="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
                 <li>
                     <Link to="/about" className="transition duration-100 hover:ease-in hover:text-[var(--Accent4)]">About</Link>
                 </li>
                 <li>
+                    <Link to="/profile" className="transition duration-100 hover:ease-in hover:text-[var(--Accent4)]">Profile</Link>
+                </li>
+                <li>
                     <Link to="/write" className="transition duration-100 hover:ease-in hover:text-[var(--Accent4)]">Write your story</Link>
                 </li>
-
                 <li>
                     <Link to="/posts" className="transition duration-100 hover:ease-in hover:text-[var(--Accent4)]">Blogs</Link>
                 </li>

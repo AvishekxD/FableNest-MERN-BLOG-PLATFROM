@@ -12,6 +12,8 @@ body{
     --secondary: oklch(0.25 0 0);
     --secondary2: oklch(0.22 0 0);
     --secondary3: oklch(13.979% 0.00002 271.152);
+    --secondary4: oklch(0.16 0 0);
+    --secondary5: oklch(0.18 0 0);
     --ring: oklch(0.7200 0 0);
     --Accent: oklch(1.00 0 0);
     --Accent2: oklch(0.32 0 0);
@@ -138,4 +140,23 @@ body{
 *::-webkit-scrollbar-thumb {
   background-color: oklch(0.34 0 0);;
   border-radius: 10px;
+}
+
+
+@theme inline {
+  --animate-meteor-effect: meteor 5s linear infinite;
+  
+  @keyframes meteor {
+    0% {
+      transform: rotate(215deg) translateX(0);
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(215deg) translateX(-500px);
+      opacity: 0;
+    }
+  }
 }

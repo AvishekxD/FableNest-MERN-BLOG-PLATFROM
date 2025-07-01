@@ -9,6 +9,7 @@ import {
 import HomePage from './routes/Homepage.jsx'
 import PostListPage from './routes/PostListPage.jsx'
 import Write from './routes/Write.jsx'
+import About from './routes/About.jsx'
 import LoginPage from './routes/LoginPage.jsx'
 import RegisterPage from './routes/RegisterPage.jsx'
 import SinglePostPage from './routes/SinglePostPage.jsx'
@@ -20,7 +21,7 @@ import {
 } from '@tanstack/react-query'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import About from './routes/About.jsx'
+import UserProfilePage from './routes/UserProfilePage.jsx'
 
 const queryClient = new QueryClient()
 
@@ -35,34 +36,42 @@ const router = createBrowserRouter([
   {
     element:<MainLayout/>,
     children:[
-        {
-          path: "/",
-          element: <HomePage/>,
-        },
-        {
-          path: "/posts",
-          element: <PostListPage/>,
-        },
-        {
-          path: "/:slug",
-          element: <SinglePostPage/>,
-        },
-        {
-          path: "/write",
-          element: <Write/>,
-        },
-        {
-          path: "/login",
-          element: <LoginPage/>,
-        },
-        {
-          path: "/register",
-          element: <RegisterPage/>,
-        },
-        {
-          path: "/about",
-          element: <About/>,
-        },
+      {
+        path: "/",
+        element: <HomePage/>,
+      },
+      {
+        path: "/posts",
+        element: <PostListPage/>,
+      },
+      {
+        path: "/:slug",
+        element: <SinglePostPage/>,
+      },
+      {
+        path: "/write",
+        element: <Write/>,
+      },
+      {
+        path: "/login",
+        element: <LoginPage/>,
+      },
+      {
+        path: "/register",
+        element: <RegisterPage/>,
+      },
+      {
+        path: "/about",
+        element: <About/>,
+      },
+      {
+        path: "/profile",
+        element: <UserProfilePage/>,
+      },
+      {
+        path: "/id/:username",
+        element: <UserProfilePage/>,
+      },
     ]
   }
 ]);

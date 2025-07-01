@@ -21,10 +21,14 @@ const userSchema = new Schema(
         img:{
             type: String,
         },
+        bio:{ 
+            type: String, 
+            default: "",
+        },
         savedPosts:{
             type: [String],
             default: [],
-        }
+        },
     },
  {timestamps: true }
 );

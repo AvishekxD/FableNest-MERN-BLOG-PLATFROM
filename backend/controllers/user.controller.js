@@ -60,3 +60,41 @@ export const savePost = async (req, res) => {
     res.status(500).json("Something went wrong");
   }
 };
+
+export const updateUserBio = async (req, res) => {
+  const { bio } = req.body;
+  const clerkUserId = req.auth().userId;
+
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { clerkUserId },
+      { bio },
+      { new: true }
+    );
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error("Bio update failed:", error);
+    res.status(500).json("Failed to update bio");
+  }
+};
+
+export const getCurrentUser = async (req, res) => {
+  const user = await User.findOne({ clerkUserId: req.auth().userId });
+  if (!user) return res.status(404).json("User not found");
+  res.status(200).json(user);
+};
+
+export const userPublicProfile = async (req, res) =>{
+  try {
+    const { username } = req.params;
+    const user = await User.findOne({ username }).select("-email -clerkUserId");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};

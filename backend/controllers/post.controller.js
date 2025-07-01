@@ -192,6 +192,27 @@ export const increasePostViews = async (req, res) => {
   }
 };
 
+export const getPostsByUser = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const posts = await Post.find({ user: userId }).sort({ createdAt: -1 });
+    res.json(posts);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch user's posts" });
+  }
+};
+
+export const getPostById = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json("Post not found");
+    res.status(200).json(post);
+  } catch (error) {
+    console.error("Error fetching post by ID:", error.message);
+    res.status(500).json("Internal Server Error");
+  }
+};
+
 const imagekit = new ImageKit({
   urlEndpoint: process.env.IK_URL_ENDPOINT,
   publicKey: process.env.IK_PUBLIC_KEY,
