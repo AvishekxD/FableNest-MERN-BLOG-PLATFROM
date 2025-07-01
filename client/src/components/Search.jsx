@@ -1,4 +1,5 @@
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 
 const Search = () => {
   const location = useLocation();
@@ -11,6 +12,10 @@ const Search = () => {
 
       if (query.startsWith("@")) {
         const username = query.substring(1);
+        navigate(`/id/${username}`);
+
+      } else if (query.startsWith("#")) {
+        const username = query.substring(1);
         if (location.pathname === "/posts") {
           setSearchParams({
             ...Object.fromEntries(searchParams),
@@ -19,12 +24,14 @@ const Search = () => {
         } else {
           navigate(`/posts?author=${username}`);
         }
+
       } else {
         if (location.pathname === "/posts") {
           setSearchParams({
             ...Object.fromEntries(searchParams),
             search: query,
           });
+
         } else {
           navigate(`/posts?search=${query}`);
         }

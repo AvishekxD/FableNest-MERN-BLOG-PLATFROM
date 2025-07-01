@@ -47,7 +47,7 @@ const SinglePostPage = () => {
           <h1 className="text-xl md:text-3xl xl:text-4xl 2xl:text-5xl font-semibold">{data.title}</h1>
           <div className="flex items-center gap-2 text-[var(--Accent)] text-sm">
             <span>Written by</span>
-            <Link className="text-indigo-300" to={`/posts?author=${data.user.username}`}>{data.user.username}</Link>
+            <Link className="text-indigo-300" to={`/id/${data.user.username}`}>{data.user.username}</Link>
             <span>on</span>
             <Link className="text-zinc-200">{data.category}</Link>
             <span>{format(data.createdAt)}</span>

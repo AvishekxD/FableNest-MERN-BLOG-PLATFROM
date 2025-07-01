@@ -87,7 +87,8 @@ export const getCurrentUser = async (req, res) => {
 export const userPublicProfile = async (req, res) =>{
   try {
     const { username } = req.params;
-    const user = await User.findOne({ username }).select("-email -clerkUserId");
+    const user = await User.findOne({ username }).select("username bio img createdAt");
+
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });

@@ -4,6 +4,7 @@ import { useAuth, useUser } from "@clerk/clerk-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Comment = ({ comment, postId}) => {
 
@@ -38,7 +39,9 @@ const Comment = ({ comment, postId}) => {
     <div className="p-4 bg-[var(--secondary)] rounded-xl mb-5">
         <div className="flex items-center gap-4">
             { comment.user.img && ( <Imag src={comment.user.img} className="w-10 h-10 rounded-full object-cover" w="40"/>)}
-            <span className="font-medium">{comment.user.username}</span>
+            <Link to={`/id/${comment.user?.username}`}>
+              {comment.user?.username}
+            </Link>
             <span>{format(comment.createdAt)}</span>
             {user && (comment.user.username === user.username || role === "admin") && (
               <span className="text-xs text-red-300 hover:text-red-500 cursor-pointer" onClick={() => mutation.mutate()}>

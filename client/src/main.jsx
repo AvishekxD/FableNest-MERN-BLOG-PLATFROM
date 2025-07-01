@@ -22,6 +22,7 @@ import {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserProfilePage from './routes/UserProfilePage.jsx'
+import PublicProfilePage from './routes/PublicProfilePage.jsx'
 
 const queryClient = new QueryClient()
 
@@ -70,7 +71,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/id/:username",
-        element: <UserProfilePage/>,
+        element: <PublicProfilePage/>,
       },
     ]
   }
