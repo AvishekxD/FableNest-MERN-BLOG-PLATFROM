@@ -48,7 +48,7 @@ const UserBioInline = () => {
         setBio(res.data.bio || "");
         setOriginalBio(res.data.bio || "");
       } catch (err) {
-        console.error("Failed to fetch user bio:", err);
+        toast.success("Failed to fetch user bio!");
       }
     };
 

@@ -9,6 +9,7 @@ import { format } from "timeago.js";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
 import SideMenuSearch from "../components/SideMenuSearch";
+import { toast } from "react-toastify";
 
 const fetchPost = async (slug) => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${slug}`);
@@ -30,7 +31,7 @@ const SinglePostPage = () => {
         try {
           await axios.put(`${import.meta.env.VITE_API_URL}/posts/view/${data._id}`);
         } catch (err) {
-          console.error("Failed to increase views:", err.message);
+          toast.error("Failed to increase views!");
         }
       }
     };

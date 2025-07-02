@@ -47,7 +47,6 @@ const PublicProfilePage = () => {
             );
             setUserComments(commentRes.data);
         } catch (err) {
-            console.error("Error fetching public profile:", err);
             navigate("/not-found");
         } finally {
             setLoading(false);

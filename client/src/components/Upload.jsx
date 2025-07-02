@@ -85,7 +85,6 @@ const Upload = ({ children, type = "image", setProgress, setData }) => {
       xhr.send(formData);
     } catch (err) {
       toast.error("Upload/compression failed.");
-      console.error(err);
       setUploading(false);
     }
   };
