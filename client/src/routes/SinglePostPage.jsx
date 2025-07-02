@@ -8,6 +8,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "timeago.js";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
+import SideMenuSearch from "../components/SideMenuSearch";
 
 const fetchPost = async (slug) => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${slug}`);
@@ -104,7 +105,7 @@ const SinglePostPage = () => {
           </div>
 
           <h1 className="mt-8 mb-4 text-sm font-medium">Search</h1>
-          <Search />
+          <SideMenuSearch />
         </div>
       </div>
 

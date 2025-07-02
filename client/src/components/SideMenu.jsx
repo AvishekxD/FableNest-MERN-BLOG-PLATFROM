@@ -1,5 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom"
-import Search from "./Search"
+import SideMenuSearch from "./SideMenuSearch";
 
 const SideMenu = () => {
 
@@ -38,7 +38,7 @@ const SideMenu = () => {
     return (
     <div className="px-4 h-max sticky top-8">
         <h1 className="mb-4 text-sm font-medium">Search</h1> 
-        <Search/>
+        <SideMenuSearch/>
         <h1 className="mt-8 mb-4 text-sm font-medium">Filter</h1>
         <div className="flex flex-col gap-2 text-sm">
             <label htmlFor="" className="flex items-center gap-2 cursor-pointer">
