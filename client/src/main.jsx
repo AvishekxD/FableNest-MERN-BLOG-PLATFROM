@@ -23,6 +23,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserProfilePage from './routes/UserProfilePage.jsx'
 import PublicProfilePage from './routes/PublicProfilePage.jsx'
+import NotFound from './routes/NotFound.jsx'
 
 const queryClient = new QueryClient()
 
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
       {
         path: "/id/:username",
         element: <PublicProfilePage/>,
+      },
+      {
+        path: "/not-found",
+        element: <NotFound />,
       },
     ]
   }
