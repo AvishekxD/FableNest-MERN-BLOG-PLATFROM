@@ -1,4 +1,5 @@
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { sanitizeInput } from "../lib/validateInput";
 
 const SideMenuSearch = () => {
   const location = useLocation();
@@ -7,7 +8,10 @@ const SideMenuSearch = () => {
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      const query = e.target.value.trim();
+      const raw = e.target.value.trim();
+      const query = sanitizeInput(raw, 100);
+
+      if (!query) return;
 
       if (query.startsWith("@")) {
         const username = query.substring(1);

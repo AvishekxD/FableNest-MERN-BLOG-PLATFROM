@@ -1,40 +1,45 @@
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useState } from "react";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
+import { sanitizeInput } from "../lib/validateInput";
 
 const Search = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [submitEnabled, setSubmitEnabled] = useState(false); 
 
   const handleSearch = (query) => {
     if (!query) return;
-    const trimmed = query.trim();
 
-    setTimeout (() =>{
-      if (trimmed.startsWith("@")) {
-        const username = trimmed.substring(1);
+    const cleaned = sanitizeInput(query.trim(), 100);
+    if (!cleaned) return;
+
+    setTimeout(() => {
+      if (cleaned.startsWith("@")) {
+        const username = cleaned.substring(1);
         navigate(`/id/${username}`);
-      } else if (trimmed.startsWith("#")) {
-        const username = trimmed.substring(1);
+      } else if (cleaned.startsWith("#")) {
+        const author = cleaned.substring(1);
         if (location.pathname === "/posts") {
           setSearchParams({
             ...Object.fromEntries(searchParams),
-            author: username,
+            author,
           });
         } else {
-          navigate(`/posts?author=${username}`);
+          navigate(`/posts?author=${author}`);
         }
       } else {
         if (location.pathname === "/posts") {
           setSearchParams({
             ...Object.fromEntries(searchParams),
-            search: trimmed,
+            search: cleaned,
           });
         } else {
-          navigate(`/posts?search=${trimmed}`);
+          navigate(`/posts?search=${cleaned}`);
         }
       }
-    },250);
+    }, 250);
   };
 
   return (
@@ -52,13 +57,11 @@ const Search = () => {
           handleSearch(value);
         }}
         onChange={(e) => {
-          // Optional: live feedback
-          // handleSearch(value);
-          setSubmitEnabled(e.target.value.trim().length > 0);
+          const value = e.target.value.trim();
+          setSubmitEnabled(value.length > 0);
         }}
       />
     </div>
-    
   );
 };
 

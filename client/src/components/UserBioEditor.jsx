@@ -3,27 +3,28 @@ import { useUser, useAuth } from "@clerk/clerk-react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import ReactMarkdown from "react-markdown";
+import { sanitizeInput } from "../lib/validateInput";// adjust path as needed
 
 const EditIcon = ({ onClick }) => (
-    <button
-        onClick={onClick}
-        className="bg-[var(--secondary)] hover:bg-[var(--secondary2)] rounded-full p-2 flex items-center justify-center transition duration-120 hover:scale-105 ease-in-out hover:text-zinc-100"
+  <button
+    onClick={onClick}
+    className="bg-[var(--secondary)] hover:bg-[var(--secondary2)] rounded-full p-2 flex items-center justify-center transition duration-120 hover:scale-105 ease-in-out hover:text-zinc-100"
+  >
+    <svg
+      className="w-4 h-4 text-muted-foreground"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
     >
-        <svg
-            className="w-4 h-4 text-muted-foreground"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-        >
-            <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M15.232 5.232l3.536 3.536M4 20h4l10.293-10.293a1 1 0 000-1.414l-2.586-2.586a1 1 0 00-1.414 0L4 16v4z"
-            />
-        </svg>
-    </button>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M15.232 5.232l3.536 3.536M4 20h4l10.293-10.293a1 1 0 000-1.414l-2.586-2.586a1 1 0 00-1.414 0L4 16v4z"
+      />
+    </svg>
+  </button>
 );
 
 const MAX_LENGTH = 120;
@@ -37,7 +38,6 @@ const UserBioInline = () => {
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Load bio
   useEffect(() => {
     const fetchBio = async () => {
       const token = await getToken();
@@ -48,7 +48,7 @@ const UserBioInline = () => {
         setBio(res.data.bio || "");
         setOriginalBio(res.data.bio || "");
       } catch (err) {
-        toast.success("Failed to fetch user bio!");
+        toast.error("Failed to fetch user bio!");
       }
     };
 
@@ -58,14 +58,23 @@ const UserBioInline = () => {
   const saveBio = async () => {
     setLoading(true);
     const token = await getToken();
+
+    const sanitized = sanitizeInput(bio, MAX_LENGTH);
+    if (!sanitized) {
+      toast.error("Invalid bio. Please remove special characters or keep it under limit.");
+      setLoading(false);
+      return;
+    }
+
     try {
       await axios.patch(
         `${import.meta.env.VITE_API_URL}/users/update-bio`,
-        { bio },
+        { bio: sanitized },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       toast.success("Bio updated!");
-      setOriginalBio(bio);
+      setOriginalBio(sanitized);
+      setBio(sanitized);
       setEditing(false);
     } catch (err) {
       toast.error("Failed to update bio.");
@@ -104,14 +113,14 @@ const UserBioInline = () => {
             <button
               onClick={saveBio}
               disabled={loading}
-              className="bg-black text-white px-4 py-1.5 text-sm rounded hover:bg-gray-900 transition"
+              className="text-white px-4 py-1.5 text-sm rounded bg-[var(--Accent2)] hover:bg-[var(--secondary2)] transition duration-150 ease-in-out"
             >
               {loading ? "Saving..." : "Save"}
             </button>
             <button
               onClick={cancelEdit}
               disabled={loading}
-              className="border text-sm px-4 py-1.5 rounded hover:bg-gray-100 transition"
+              className=" text-sm px-4 py-1.5 rounded bg-[var(--Accent2)] hover:bg-[var(--secondary2)] transition duration-150 ease-in-out"
             >
               Cancel
             </button>
@@ -124,7 +133,7 @@ const UserBioInline = () => {
               {bio ? "Your Bio" : "Add Bio"}
             </p>
             <div className="text-sm text-muted-foreground prose prose-sm max-w-none">
-              <ReactMarkdown>{bio || "Let others know about you."}</ReactMarkdown>
+              <ReactMarkdown>{sanitizeInput(bio) || "Let others know about you."}</ReactMarkdown>
             </div>
           </div>
           <EditIcon onClick={() => setEditing(true)} />

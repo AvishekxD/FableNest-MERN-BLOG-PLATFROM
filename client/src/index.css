@@ -19,7 +19,6 @@ body{
     --Accent2: oklch(0.32 0 0);
     --Accent3: oklch(0.40 0 0);
     --Accent4: oklch(0.90 0 0);
-
 }
 
 .animatedButton{
@@ -158,5 +157,14 @@ body{
       transform: rotate(215deg) translateX(-500px);
       opacity: 0;
     }
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
   }
 }

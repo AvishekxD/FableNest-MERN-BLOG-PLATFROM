@@ -11,7 +11,7 @@
 - TailwindCSS  
 - Motion
 - Clerk
-- ImageKit(for Image Optimization)
+- ImageKit(for Image Optimization), browser-image-compression
 
 ---
 
@@ -39,6 +39,8 @@ npm i cors
 npm i react-toastify
 npm i react-infinite-scroll-component
 npm i timeago.js
+npm i browser-image-compression
+npm install validator
 
 
 2. Run development server

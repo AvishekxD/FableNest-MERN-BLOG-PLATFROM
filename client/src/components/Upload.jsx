@@ -114,7 +114,7 @@ const Upload = ({ children, type = "image", setProgress, setData }) => {
             <span className="text-xs text-yellow-400 animate-pulse">Uploading...</span>
           )}
           {uploaded && !uploading && (
-            <span className="text-xs text-green-400">✅ Uploaded</span>
+            <span className="text-xs text-green-400">Uploaded</span>
           )}
           {preview && type === "image" && (
             <img

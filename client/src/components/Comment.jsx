@@ -5,9 +5,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { sanitizeInput } from "../lib/validateInput";
 
-const Comment = ({ comment, postId}) => {
-
+const Comment = ({ comment, postId }) => {
   const { user } = useUser();
   const { getToken } = useAuth();
   const role = user?.publicMetadata?.role;
@@ -35,26 +35,37 @@ const Comment = ({ comment, postId}) => {
     },
   });
 
+  const safeComment = sanitizeInput(comment.desc, 500);
+
   return (
     <div className="p-4 bg-[var(--secondary)] rounded-xl mb-5">
-        <div className="flex items-center gap-4">
-            { comment.user.img && ( <Imag src={comment.user.img} className="w-10 h-10 rounded-full object-cover" w="40"/>)}
-            <Link to={`/id/${comment.user?.username}`}>
-              {comment.user?.username}
-            </Link>
-            <span>{format(comment.createdAt)}</span>
-            {user && (comment.user.username === user.username || role === "admin") && (
-              <span className="text-xs text-red-300 hover:text-red-500 cursor-pointer" onClick={() => mutation.mutate()}>
-                delete
-                {mutation.isPending && <span>(in progress)</span>}
-              </span>
-            )}
-        </div>
-        <div className="mt-4">
-            <p>{comment.desc}</p>
-        </div>
+      <div className="flex items-center gap-4">
+        {comment.user.img && (
+          <Imag
+            src={comment.user.img}
+            className="w-10 h-10 rounded-full object-cover"
+            w="40"
+          />
+        )}
+        <Link to={`/id/${comment.user?.username}`}>
+          {comment.user?.username}
+        </Link>
+        <span>{format(comment.createdAt)}</span>
+        {user && (comment.user.username === user.username || role === "admin") && (
+          <span
+            className="text-xs text-red-300 hover:text-red-500 cursor-pointer"
+            onClick={() => mutation.mutate()}
+          >
+            delete
+            {mutation.isPending && <span>(in progress)</span>}
+          </span>
+        )}
+      </div>
+      <div className="mt-4">
+        <p>{safeComment}</p>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Comment
+export default Comment;

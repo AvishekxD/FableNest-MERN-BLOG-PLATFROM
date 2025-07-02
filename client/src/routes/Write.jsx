@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import Upload from "../components/Upload";
 import { BackgroundBeams } from "../components/ui/background-beams";
 import { TypewriterEffectSmooth} from "../components/ui/typewriter-effect";
+import { sanitizeInput } from "../lib/validateInput";
 
 
 const Write = () => {
@@ -65,6 +66,16 @@ const Write = () => {
     }
   }, [video]);
 
+  useEffect(() => {
+  if (progress === 100) {
+      const timer = setTimeout(() => {
+        setProgress(0);
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [progress]);
+
+
   const mutation = useMutation({
     mutationFn: async (newPost) => {
       const token = await getToken();
@@ -102,12 +113,19 @@ const Write = () => {
 
 
   if (!isLoaded) return <div className="text-white">Loading...</div>;
-  if (isLoaded && !isSignedIn)
-    return <div className="text-white">You should login!</div>;
+  if (isLoaded && !isSignedIn) return <div className="text-white">You should login!</div>;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+    
+    const rawTitle = formData.get("title");
+    const rawDesc = formData.get("desc");
+    const rawContent = value;
+
+    const title = sanitizeInput(rawTitle, 250);
+    const desc = sanitizeInput(rawDesc, 500);
+    const content = sanitizeInput(rawContent, 10000); 
 
     const data = {
       img: cover?.filePath || "",
@@ -117,8 +135,8 @@ const Write = () => {
       content: value,
     };
 
-    if (!data.title || !data.desc || !data.content) {
-      toast.error("Please fill all required fields.");
+    if (!title || !desc || !content) {
+      toast.error("Please fill all fields with valid input.");
       return;
     }
 
@@ -175,7 +193,7 @@ const Write = () => {
         <textarea
           className="p-4 rounded-xl bg-[var(--Accent2)]"
           name="desc"
-          placeholder="A Short Description"
+          placeholder="A Short Description..."
         />
 
         <div className="flex gap-2 items-start flex-wrap -my-4">
@@ -216,9 +234,30 @@ const Write = () => {
           {mutation.isPending ? "Loading..." : "Send"}
         </button>
 
-        <p className="text-xs text-zinc-400">
-          Progress: {progress > 0 ? `${progress}%` : "Idle"}
-        </p>
+        {progress > 0 && progress < 100 && (
+          <div className="fixed top-0 left-0 w-full z-[9999] h-[3px] bg-transparent">
+            <div
+              className="h-full transition-all duration-300 ease-in-out rounded-r-full"
+              style={{
+                width: `${progress}%`,
+                background: `
+                  linear-gradient(
+                    90deg,
+                    oklch(0.16 0 0),
+                    oklch(0.18 0 0),
+                    oklch(0.40 0 0),
+                    oklch(0.72 0 0),
+                    oklch(0.40 0 0),
+                    oklch(0.18 0 0),
+                    oklch(0.16 0 0)
+                  )
+                `,
+                backgroundSize: "400% 400%",
+                animation: 'gradientShift 4s linear infinite',
+              }}
+            />
+          </div>
+        )}
         {mutation.isError && (
           <span className="text-sm text-red-400">
             {mutation.error.message}
