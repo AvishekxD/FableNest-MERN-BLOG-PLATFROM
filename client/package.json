@@ -16,6 +16,7 @@
     "axios": "^1.10.0",
     "browser-image-compression": "^2.0.2",
     "clsx": "^2.1.1",
+    "he": "^1.2.0",
     "imagekit": "^6.0.0",
     "imagekitio-react": "^4.3.0",
     "motion": "^12.18.1",

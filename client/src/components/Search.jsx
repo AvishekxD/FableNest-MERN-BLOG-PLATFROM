@@ -1,7 +1,6 @@
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
-import { sanitizeInput } from "../lib/validateInput";
 
 const Search = () => {
   const location = useLocation();
@@ -12,8 +11,8 @@ const Search = () => {
   const handleSearch = (query) => {
     if (!query) return;
 
-    const cleaned = sanitizeInput(query.trim(), 100);
-    if (!cleaned) return;
+    const cleaned = query.trim();
+    if (!cleaned || cleaned.length > 100) return;
 
     setTimeout(() => {
       if (cleaned.startsWith("@")) {

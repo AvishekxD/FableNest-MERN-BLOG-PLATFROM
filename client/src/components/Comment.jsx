@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { sanitizeInput } from "../lib/validateInput";
+import ReactMarkdown from "react-markdown";
+import he from "he";
 
 const Comment = ({ comment, postId }) => {
   const { user } = useUser();
@@ -36,6 +38,7 @@ const Comment = ({ comment, postId }) => {
   });
 
   const safeComment = sanitizeInput(comment.desc, 500);
+  const decodedComment = he.decode(safeComment || "");
 
   return (
     <div className="p-4 bg-[var(--secondary)] rounded-xl mb-5">
@@ -62,7 +65,7 @@ const Comment = ({ comment, postId }) => {
         )}
       </div>
       <div className="mt-4">
-        <p>{safeComment}</p>
+         <ReactMarkdown>{decodedComment}</ReactMarkdown>
       </div>
     </div>
   );

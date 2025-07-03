@@ -10,7 +10,7 @@ import Upload from "../components/Upload";
 import { BackgroundBeams } from "../components/ui/background-beams";
 import { TypewriterEffectSmooth} from "../components/ui/typewriter-effect";
 import { sanitizeInput } from "../lib/validateInput";
-
+import ReactMarkdown from "react-markdown";
 
 const Write = () => {
   const { isLoaded, isSignedIn } = useUser();
@@ -115,18 +115,41 @@ const Write = () => {
   if (!isLoaded) return <div className="text-white">Loading...</div>;
   if (isLoaded && !isSignedIn) return <div className="text-white">You should login!</div>;
 
-  const handleSubmit = (e) => {
+  const MAX_TITLE = 250;
+  const MAX_DESC = 500;
+  const MAX_CONTENT = 10000;
+
+const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    
-    const rawTitle = formData.get("title");
-    const rawDesc = formData.get("desc");
-    const rawContent = value;
 
-    const title = sanitizeInput(rawTitle, 250);
-    const desc = sanitizeInput(rawDesc, 500);
-    const content = sanitizeInput(rawContent, 10000); 
+    const rawTitle = formData.get("title")?.trim() || "";
+    const rawDesc = formData.get("desc")?.trim() || "";
+    const rawContent = value?.trim() || "";
 
+    if (rawTitle.length > MAX_TITLE) {
+      toast.error(`Title must be under ${MAX_TITLE} characters.`);
+      return;
+    }
+
+    if (rawDesc.length > MAX_DESC) {
+      toast.error(`Description must be under ${MAX_DESC} characters.`);
+      return;
+    }
+
+    if (rawContent.length > MAX_CONTENT) {
+      toast.error(`Content must be under ${MAX_CONTENT} characters.`);
+      return;
+    }
+
+    const title = <ReactMarkdown>{sanitizeInput(rawTitle, MAX_TITLE)}</ReactMarkdown>;
+    const desc = <ReactMarkdown>{sanitizeInput(rawDesc, MAX_DESC)}</ReactMarkdown>;
+    const content = <ReactMarkdown>{sanitizeInput(rawContent, MAX_CONTENT)}</ReactMarkdown>;
+
+    if (!title || !desc || !content) {
+      toast.error("Please fill all fields with valid input.");
+      return;
+    }
     const data = {
       img: cover?.filePath || "",
       title: formData.get("title")?.trim(),
@@ -146,7 +169,7 @@ const Write = () => {
   return (
     <div className="h-[calc(100vh-64px)] md:h-[calc(100vh-80px)] flex flex-col gap-4">
       <h1 className="text-xl font-light">Create a New Post</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-1 mb-6 min-h-screen">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-1 mb-6 min-h-0 md:min-h-screen">
         <Upload type="image" setProgress={setProgress} setData={setCover}>
           <button
             type="button"
@@ -229,7 +252,7 @@ const Write = () => {
         <button
           type="submit"
           disabled={mutation.isPending || (0 < progress && progress < 100)}
-          className="bg-[var(--secondary)] hover:bg-[var(--Accent2)] font-medium rounded-xl p-2 cursor-pointer duration-200 hover:scale-105 w-36 disabled:bg-zinc-900 disabled:cursor-not-allowed"
+          className="bg-[var(--secondary)] hover:bg-[var(--Accent2)] font-medium rounded-xl p-2 cursor-pointer duration-200 hover:scale-105 w-36 disabled:bg-zinc-900 disabled:cursor-not-allowed mb-5"
         >
           {mutation.isPending ? "Loading..." : "Send"}
         </button>

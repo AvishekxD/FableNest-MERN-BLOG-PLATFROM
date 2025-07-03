@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import SharePost from "./SharePost";
 
 const PostMenuActions = ({ post }) => {
   const { user } = useUser();
@@ -110,7 +111,7 @@ const PostMenuActions = ({ post }) => {
   };
 
   return (
-    <div className="">
+    <div className="w-full md:w-48 lg:w-60">
       <h1 className="mt-8 mb-4 text-sm font-medium">Actions</h1>
       {isPending ? (
         "Loading..."
@@ -192,6 +193,7 @@ const PostMenuActions = ({ post }) => {
           )}
         </div>
       )}
+      <SharePost title={post.title} slug={post.slug} />
     </div>
   );
 };

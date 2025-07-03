@@ -36,7 +36,7 @@ const SideMenu = () => {
     };
 
     return (
-    <div className="px-4 h-max sticky top-8">
+    <div className="px-4 h-max sticky top-8 w-full md:w-44 lg:w-62">
         <h1 className="mb-4 text-sm font-medium">Search</h1> 
         <SideMenuSearch/>
         <h1 className="mt-8 mb-4 text-sm font-medium">Filter</h1>

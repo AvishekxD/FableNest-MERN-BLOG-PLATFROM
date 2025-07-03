@@ -1,43 +1,68 @@
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { sanitizeInput } from "../lib/validateInput";
+import React, { useRef } from 'react';
 
 const SideMenuSearch = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const inputRef = useRef(null); 
+
+  const performSearch = () => {
+    const raw = inputRef.current.value.trim();
+    const cleaned = sanitizeInput(raw, 100);
+
+    if (!cleaned) return;
+
+    const encoded = encodeURIComponent(cleaned);
+
+    if (cleaned.startsWith("@")) {
+      const username = cleaned.substring(1).trim();
+      if (username) navigate(`/id/${username}`);
+      inputRef.current.value = "";
+      return;
+    }
+
+    if (cleaned.startsWith("#")) {
+      const author = cleaned.substring(1).trim();
+      if (!author) return;
+
+      if (location.pathname === "/posts") {
+        setSearchParams({
+          ...Object.fromEntries(searchParams),
+          author,
+        });
+      } else {
+        navigate(`/posts?author=${encodeURIComponent(author)}`);
+      }
+
+      inputRef.current.value = "";
+      return;
+    }
+
+    if (location.pathname === "/posts") {
+      setSearchParams({
+        ...Object.fromEntries(searchParams),
+        search: encoded,
+      });
+    } else {
+      navigate(`/posts?search=${encoded}`);
+    }
+
+    inputRef.current.value = "";
+  };
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      const raw = e.target.value.trim();
-      const query = sanitizeInput(raw, 100);
-
-      if (!query) return;
-
-      if (query.startsWith("@")) {
-        const username = query.substring(1);
-        if (location.pathname === "/posts") {
-          setSearchParams({
-            ...Object.fromEntries(searchParams),
-            author: username,
-          });
-        } else {
-          navigate(`/posts?author=${username}`);
-        }
-      } else {
-        if (location.pathname === "/posts") {
-          setSearchParams({
-            ...Object.fromEntries(searchParams),
-            search: query,
-          });
-        } else {
-          navigate(`/posts?search=${query}`);
-        }
-      }
+      performSearch();
     }
   };
 
   return (
-    <div className="bg-[var(--secondary2)] hover:bg-[var(--secondary)] p-2 rounded-full flex items-center gap-2">
+    <div
+      className="bg-[var(--secondary2)] hover:bg-[var(--secondary)] p-2 rounded-full flex items-center gap-2 cursor-pointer"
+      onClick={performSearch}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -52,8 +77,10 @@ const SideMenuSearch = () => {
       <input
         type="text"
         placeholder="Search posts or @author"
-        className="bg-transparent focus:outline-none focus:ring-0"
+        className="bg-transparent focus:outline-none focus:ring-0 text-sm w-full"
         onKeyDown={handleKeyPress}
+        ref={inputRef} 
+        onClick={(e) => e.stopPropagation()}
       />
     </div>
   );

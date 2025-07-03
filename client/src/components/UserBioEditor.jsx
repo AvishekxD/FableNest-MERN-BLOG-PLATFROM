@@ -3,7 +3,7 @@ import { useUser, useAuth } from "@clerk/clerk-react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import ReactMarkdown from "react-markdown";
-import { sanitizeInput } from "../lib/validateInput";// adjust path as needed
+import { sanitizeInput } from "../lib/validateInput";
 
 const EditIcon = ({ onClick }) => (
   <button
@@ -133,7 +133,7 @@ const UserBioInline = () => {
               {bio ? "Your Bio" : "Add Bio"}
             </p>
             <div className="text-sm text-muted-foreground prose prose-sm max-w-none">
-              <ReactMarkdown>{sanitizeInput(bio) || "Let others know about you."}</ReactMarkdown>
+              <ReactMarkdown>{originalBio || "Let others know about you."}</ReactMarkdown>
             </div>
           </div>
           <EditIcon onClick={() => setEditing(true)} />
