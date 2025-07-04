@@ -6,7 +6,7 @@ const SideMenuSearch = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const inputRef = useRef(null); 
+  const inputRef = useRef(null);
 
   const performSearch = () => {
     const raw = inputRef.current.value.trim();
@@ -79,7 +79,7 @@ const SideMenuSearch = () => {
         placeholder="Search posts or @author"
         className="bg-transparent focus:outline-none focus:ring-0 text-sm w-full"
         onKeyDown={handleKeyPress}
-        ref={inputRef} 
+        ref={inputRef}
         onClick={(e) => e.stopPropagation()}
       />
     </div>

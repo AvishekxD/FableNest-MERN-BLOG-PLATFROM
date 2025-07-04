@@ -6,6 +6,12 @@ import UserBioEditor from "../components/UserBioEditor";
 import { Meteors } from "../components/ui/meteors";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
+import StatCard from "../components/StatCard";
+import HeatmapCalendar from "../components/HeatmapCalendar";
+import WeeklyStatsChart from "../components/WeeklyStatsChart";
+import YearSelector from "../components/YearSelector";
+import { parseISO, format, subDays, startOfYear, endOfYear, endOfDay } from "date-fns";
+
 
 function stripHtml(html) {
   const div = document.createElement("div");
@@ -20,6 +26,8 @@ const UserProfilePage = () => {
   const [userComments, setUserComments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [userPosts, setUserPosts] = useState([]);
+  const [statsData, setStatsData] = useState(null);
+  const [apiFetchYear, setApiFetchYear] = useState(new Date().getFullYear());
 
   const { user } = useUser();
   const { getToken } = useAuth();
@@ -85,14 +93,45 @@ const UserProfilePage = () => {
       }
     };
 
+    const fetchStats = async () => {
+      try {
+        setLoading(true);
+        const token = await getToken();
+
+        let startDateParam, endDateParam;
+        if (apiFetchYear === new Date().getFullYear()) {
+          startDateParam = subDays(new Date(), 365).toISOString();
+          endDateParam = endOfDay(new Date()).toISOString();
+        } else {
+          startDateParam = startOfYear(new Date(apiFetchYear, 0, 1)).toISOString();
+          endDateParam = endOfYear(new Date(apiFetchYear, 0, 1)).toISOString();
+        }
+
+
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/analytics/overview?userId=${user.publicMetadata.mongoId}&startDate=${startDateParam}&endDate=${endDateParam}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setStatsData(res.data);
+      } catch (err) {
+        console.error("Stats error", err);
+        toast.error("Failed to load statistics.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (section === "comments") {
       fetchUserComments();
     } else if (section === "saved") {
       fetchSavedPosts();
     } else if (section === "posts") {
       fetchUserPosts();
+    } else if (section === "stats") {
+      fetchStats();
     }
-  }, [section, getToken, user]);
+
+  }, [section, getToken, user, apiFetchYear]);
 
   const handleDelete = async (commentId) => {
     try {
@@ -139,15 +178,14 @@ const UserProfilePage = () => {
       </div>
 
       <div className="relative overflow-hidden flex gap-3 justify-center md:justify-start mb-6 bg-[var(--secondary4)] rounded-xl p-6">
-        {["posts", "comments", "saved"].map((item) => (
+        {["posts", "comments", "saved", "stats"].map((item) => (
           <button
             key={item}
             onClick={() => setSection(item)}
-            className={`px-4 py-2 text-sm rounded-md capitalize transition-colors z-10 ${
-              section === item
+            className={`px-4.5 py-2 text-sm rounded-md capitalize transition-colors z-10 ${section === item
                 ? "bg-neutral-800 text-white"
                 : "bg-muted text-muted-foreground hover:bg-[var(--secondary)]"
-            }`}
+              }`}
           >
             {item}
           </button>
@@ -269,6 +307,46 @@ const UserProfilePage = () => {
             ))}
           </ul>
         )}
+        {section === "stats" && statsData && (
+          <div className="grid gap-2">
+            <div className="flex justify-between items-center mb-4">
+              <h4 className="text-xl font-semibold text-white">Your Statistics</h4>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <StatCard label="Total Posts" value={statsData.totalPosts} />
+              <StatCard label="Total Comments" value={statsData.totalComments} />
+              <StatCard label="Total Views" value={statsData.totalViews} />
+              <StatCard label="Post Shares" value={statsData.totalShares} />
+            </div>
+
+            <div className="mt-6">
+              <h4 className="text-lg font-semibold mb-2">Post Activity</h4>
+              <HeatmapCalendar data={statsData.calendarData || []} onYearChange={setApiFetchYear} />
+            </div>
+
+            {statsData.calendarData && statsData.calendarData.length === 0 && (
+              <div className="text-center text-neutral-400 mt-4 p-4 rounded-lg bg-neutral-800">
+                {apiFetchYear === new Date().getFullYear() ? (
+                  <>
+                    <p className="text-lg font-semibold mb-2">No activity recorded yet!</p>
+                    <p className="text-sm">Start posting to see your contributions here.</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-lg font-semibold mb-2">No activity recorded for {apiFetchYear}.</p>
+                    <p className="text-sm">Try selecting a different year in the dropdown.</p>
+                  </>
+                )}
+              </div>
+            )}
+
+            <div className="mt-6">
+              <h4 className="text-lg font-semibold mb-2">Weekly Performance</h4>
+              <WeeklyStatsChart data={statsData.weeklyStats || []} />
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

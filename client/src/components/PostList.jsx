@@ -65,7 +65,7 @@ const PostList = () => {
             <Meteors number={20} />
           </div>
           <div className="relative z-10">
-            
+
             <h1 className="text-6xl font-bold text-white">404</h1>
             <p className="mt-4 text-xl text-muted-foreground">Oops! Page not found.</p>
             {randomSticker && (
@@ -78,17 +78,17 @@ const PostList = () => {
                 initial={{ y: -30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{
-                    type: "spring",
-                    stiffness: 120,
-                    damping: 8,
-                    duration: 0.6,
+                  type: "spring",
+                  stiffness: 120,
+                  damping: 8,
+                  duration: 0.6,
                 }}
               />
             )}
             <p className="mt-2 text-muted-foreground">
               We looked everywhere but couldn't find it. 🎈
             </p>
-      
+
             <Link
               to="/"
               className="mt-6 inline-block px-6 py-2 bg-[var(--secondary2)] hover:bg-[var(--secondary)] text-white rounded-full transition duration-300"

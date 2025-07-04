@@ -24,13 +24,13 @@ const FeaturedPosts = () => {
     return <div className="text-center text-red-500 py-10">Something went wrong!</div>;
   }
 
-  const posts = data?.posts || []; 
+  const posts = data?.posts || [];
   if (posts.length === 0) {
     return <div className="text-center text-gray-500 py-10">No featured posts available.</div>;
   }
 
   const mainColumnClass = posts.length === 1 ? "w-full" : "lg:w-1/2";
-  const sideColumnClass = posts.length >= 2 ? "lg:w-1/2" : ""; 
+  const sideColumnClass = posts.length >= 2 ? "lg:w-1/2" : "";
 
   return (
     <div className="lg:mt-18 md:mt-16 flex flex-col lg:flex-row gap-8">

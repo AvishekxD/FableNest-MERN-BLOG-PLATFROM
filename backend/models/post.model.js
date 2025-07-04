@@ -39,6 +39,19 @@ const postSchema = new Schema(
             type: Number,
             default: 0,
         },
+        shares: [
+            {
+                platform: {
+                    type: String,
+                    enum: ["twitter", "linkedin", "gmail", "copy"],
+                    required: true,
+                },
+                sharedAt: {
+                    type: Date,
+                    default: Date.now,
+                },
+            },
+        ],
     },
  {timestamps: true }
 );

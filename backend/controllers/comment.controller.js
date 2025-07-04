@@ -14,11 +14,11 @@ export const addComment = async (req, res) => {
     const clerkUserId = req.auth().userId;
     const postId = req.params.postId;
     const user = await User.findOne({ clerkUserId });
-    
+
     if (!user) return res.status(404).json("User not found!");
 
     const { desc } = req.body;
-    
+
 
     const comment = new Comment({
       desc,
@@ -75,8 +75,8 @@ export const deleteComment = async (req, res) => {
 export const getCommentsByUser = async (req, res) => {
   try {
     const comments = await Comment.find({ user: req.params.userId })
-    .sort({ createdAt: -1 })
-    .populate("post", "title slug");
+      .sort({ createdAt: -1 })
+      .populate("post", "title slug");
     res.status(200).json(comments);
   } catch (error) {
     console.error("Failed to fetch user comments:", error);

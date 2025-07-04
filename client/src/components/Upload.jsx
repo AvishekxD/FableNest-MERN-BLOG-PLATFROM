@@ -5,7 +5,9 @@ import imageCompression from "browser-image-compression";
 
 const authenticator = async () => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/posts/upload-auth`);
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/posts/upload-auth`
+    );
     if (!response.ok) throw new Error(await response.text());
     const { signature, expire, token } = await response.json();
     return { signature, expire, token };
@@ -96,7 +98,6 @@ const Upload = ({ children, type = "image", setProgress, setData }) => {
       authenticator={authenticator}
     >
       <div className="relative flex flex-col items-start">
-        {/* Trigger Upload */}
         <input
           ref={ref}
           type="file"
@@ -108,10 +109,11 @@ const Upload = ({ children, type = "image", setProgress, setData }) => {
           {children}
         </div>
 
-        {/* Feedback UI */}
         <div className="mt-2 flex flex-col gap-1">
           {uploading && (
-            <span className="text-xs text-yellow-400 animate-pulse">Uploading...</span>
+            <span className="text-xs text-yellow-400 animate-pulse">
+              Uploading...
+            </span>
           )}
           {uploaded && !uploading && (
             <span className="text-xs text-green-400">Uploaded</span>

@@ -36,21 +36,21 @@ export const getPosts = async (req, res) => {
     query.user = user._id;
   }
 
-  let sortObj = { createdAt: -1};
+  let sortObj = { createdAt: -1 };
 
   if (sortQuery) {
     switch (sortQuery) {
       case "newest":
-        sortObj = { createdAt: -1};
+        sortObj = { createdAt: -1 };
         break;
       case "oldest":
-        sortObj = { createdAt: 1};
+        sortObj = { createdAt: 1 };
         break;
       case "popular":
-        sortObj = { visit: -1};
+        sortObj = { visit: -1 };
         break;
       case "trending":
-        sortObj = { visit: -1};
+        sortObj = { visit: -1 };
         query.createdAt = {
           $gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
         };
@@ -124,7 +124,7 @@ export const deletePost = async (req, res) => {
     return res.status(401).json("Not authenticated!");
   }
 
-  const role = req.auth.sessionClaims?.metadata?.role || "user";
+  const role = req.auth().sessionClaims?.metadata?.role || "user";
 
   if (role === "admin") {
     await Post.findByIdAndDelete(req.params.id);
@@ -210,6 +210,26 @@ export const getPostById = async (req, res) => {
   } catch (error) {
     console.error("Error fetching post by ID:", error.message);
     res.status(500).json("Internal Server Error");
+  }
+};
+
+export const getShareData = async (req, res) => {
+  const { platform } = req.body;
+
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ error: "Post not found" });
+
+    post.shares.push({
+      platform: platform || "copy",
+      sharedAt: new Date(),
+    });
+
+    await post.save();
+    res.status(200).json({ message: "Share recorded" });
+  } catch (err) {
+    console.error("Share error:", err);
+    res.status(500).json({ error: "Failed to record share" });
   }
 };
 

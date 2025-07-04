@@ -42,9 +42,12 @@ const UserBioInline = () => {
     const fetchBio = async () => {
       const token = await getToken();
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/users/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/users/me`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setBio(res.data.bio || "");
         setOriginalBio(res.data.bio || "");
       } catch (err) {
@@ -61,7 +64,9 @@ const UserBioInline = () => {
 
     const sanitized = sanitizeInput(bio, MAX_LENGTH);
     if (!sanitized) {
-      toast.error("Invalid bio. Please remove special characters or keep it under limit.");
+      toast.error(
+        "Invalid bio. Please remove special characters or keep it under limit."
+      );
       setLoading(false);
       return;
     }
@@ -94,7 +99,9 @@ const UserBioInline = () => {
     <div className="mt-4">
       {editing ? (
         <div>
-          <label className="text-sm font-medium text-[var(--Accent)] mb-1 block">Your Bio</label>
+          <label className="text-sm font-medium text-[var(--Accent)] mb-1 block">
+            Your Bio
+          </label>
           <textarea
             value={bio}
             onChange={(e) => {
@@ -133,7 +140,9 @@ const UserBioInline = () => {
               {bio ? "Your Bio" : "Add Bio"}
             </p>
             <div className="text-sm text-muted-foreground prose prose-sm max-w-none">
-              <ReactMarkdown>{originalBio || "Let others know about you."}</ReactMarkdown>
+              <ReactMarkdown>
+                {originalBio || "Let others know about you."}
+              </ReactMarkdown>
             </div>
           </div>
           <EditIcon onClick={() => setEditing(true)} />

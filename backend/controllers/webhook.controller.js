@@ -22,7 +22,7 @@ export const clerkWebHook = async (req, res) => {
   try {
     evt = wh.verify(payload, headers);
   } catch (err) {
-    console.error("❌ Clerk Webhook verification failed:", err.message);
+    console.error("Clerk Webhook verification failed:", err.message);
     return res.status(400).json({ message: "Webhook verification failed!" });
   }
 
@@ -30,11 +30,11 @@ export const clerkWebHook = async (req, res) => {
   const eventData = evt.data;
 
   if (eventType === "user.created") {
-    console.log("👤 Creating user:", eventData);
+    console.log("Creating user:", eventData);
     const profileImage =
-    eventData.image_url ||
-    eventData.profile_image_url ||
-    "https://i.stack.imgur.com/l60Hf.png";
+      eventData.image_url ||
+      eventData.profile_image_url ||
+      "https://i.stack.imgur.com/l60Hf.png";
 
     const newUser = new User({
       clerkUserId: eventData.id,
@@ -45,25 +45,23 @@ export const clerkWebHook = async (req, res) => {
 
     try {
       const savedUser = await newUser.save();
-      console.log("✅ User saved to MongoDB:", savedUser);
+      console.log("User saved to MongoDB:", savedUser);
 
-      // ✅ Now update Clerk's publicMetadata with mongoId
       await clerkClient.users.updateUserMetadata(eventData.id, {
         publicMetadata: {
           mongoId: savedUser._id.toString(),
         },
       });
 
-      console.log("🔗 Clerk user metadata updated with mongoId");
+      console.log("Clerk user metadata updated with mongoId");
 
     } catch (err) {
-      console.error("❌ Error saving user or updating metadata:", err.message);
-    } 
+      console.error("Error saving user or updating metadata:", err.message);
+    }
   }
 
-  // ✅ NEW: Update user when profile info (like image) is changed
   if (eventType === "user.updated") {
-    console.log("♻️ Updating user:", eventData);
+    console.log("Updating user:", eventData);
 
     try {
       const updatedUser = await User.findOneAndUpdate(
@@ -80,12 +78,12 @@ export const clerkWebHook = async (req, res) => {
       );
 
       if (updatedUser) {
-        console.log("✅ User updated in MongoDB:", updatedUser);
+        console.log("User updated in MongoDB:", updatedUser);
       } else {
-        console.warn("⚠️ User not found to update in MongoDB");
+        console.warn("User not found to update in MongoDB");
       }
     } catch (err) {
-      console.error("❌ Error updating user:", err.message);
+      console.error("Error updating user:", err.message);
     }
   }
 
@@ -97,7 +95,7 @@ export const clerkWebHook = async (req, res) => {
     if (deletedUser) {
       await Post.deleteMany({ user: deletedUser._id });
       await Comment.deleteMany({ user: deletedUser._id });
-      console.log("🗑️ Deleted user and related posts/comments");
+      console.log("Deleted user and related posts/comments");
     }
   }
 

@@ -12,7 +12,7 @@ export const getUserSavedPosts = async (req, res) => {
     const user = await User.findOne({ clerkUserId });
     if (!user) return res.status(404).json("User not found");
 
-    // ✅ Sync mongoId into Clerk publicMetadata
+    // Sync mongoId into Clerk publicMetadata
     await clerkClient.users.updateUserMetadata(clerkUserId, {
       publicMetadata: {
         mongoId: user._id.toString()
@@ -38,7 +38,7 @@ export const savePost = async (req, res) => {
     const user = await User.findOne({ clerkUserId });
     if (!user) return res.status(404).json("User not found");
 
-    // ✅ Sync mongoId into Clerk publicMetadata
+    // Sync mongoId into Clerk publicMetadata
     await clerkClient.users.updateUserMetadata(clerkUserId, {
       publicMetadata: {
         mongoId: user._id.toString()
@@ -84,7 +84,7 @@ export const getCurrentUser = async (req, res) => {
   res.status(200).json(user);
 };
 
-export const userPublicProfile = async (req, res) =>{
+export const userPublicProfile = async (req, res) => {
   try {
     const { username } = req.params;
     const user = await User.findOne({ username }).select("username bio img createdAt");

@@ -13,7 +13,6 @@ const categories = [
 const MainCategories = () => {
   return (
     <div className="sticky top-3 z-[1] bg-[var(--primary)] rounded-3xl xl:rounded-full p-4 shadow-[0_0_6px_rgba(0,0,0,0.5)] shadow-zinc-800 backdrop-blur-lg flex flex-col sm:flex-row items-center justify-between gap-4">
-      {/* Category Links */}
       <div className="hidden md:flex flex-wrap justify-between gap-3 flex-1">
         {categories.map((cat, index) => (
           <Link
@@ -33,7 +32,6 @@ const MainCategories = () => {
         ))}
       </div>
 
-      {/* Divider & Search Box (always visible) */}
       <div className="flex items-center gap-4 w-full md:w-auto justify-center">
         <span className="hidden md:inline-block text-xl font-bold">|</span>
         <Search />

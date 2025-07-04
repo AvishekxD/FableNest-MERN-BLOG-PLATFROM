@@ -5,11 +5,11 @@ import { format } from "timeago.js";
 const PostListItem = ({ post }) => {
     return (
         <div className="flex flex-col xl:flex-row gap-6 mb-12">
-            
-        {post.img && <div className=" xl:block xl:w-3/3">
-                <Imag src={post.img} className="rounded-2xl object-cover" w="710" h="470"/>
+
+            {post.img && <div className=" xl:block xl:w-3/3">
+                <Imag src={post.img} className="rounded-2xl object-cover" w="710" h="470" />
             </div>}
-            
+
             <div className="flex flex-col gap-4 xl:w-3/3">
                 <Link to={`/${post.slug}`} className="text-4xl font-semibold">
                     {post.title}

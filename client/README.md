@@ -41,7 +41,11 @@ npm i react-infinite-scroll-component
 npm i timeago.js
 npm i browser-image-compression
 npm install validator
-
+npm list react-markdown
+npm install he
+npm install react-calendar-heatmap
+npm install date-fns
+npm install recharts
 
 2. Run development server
 
