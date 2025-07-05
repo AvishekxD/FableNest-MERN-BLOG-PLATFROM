@@ -6,23 +6,22 @@ FableNest : A full-featured blogging platform built using the MERN stack (MongoD
 
 ## 🚀 Features Added
 
-- ✍️ Create, edit, and delete blog posts  
-- 👤 User authentication (register/login)  
-- 🔐 Implemented Role-Based Authorization across MERN Stack
-- 🗂️ Categorize and filter posts  
-- 💬 Add comments on posts  
-- 📈 Tracked and displayed post view counts per visit
-- 🔄 Infinite scroll with filters
-- 📱 Responsive design for all devices  
-- 🔎 Added React 19 search bar with URL param syncing
+- ✍️ Create, edit, and delete blog posts. 
+- 👤 User authentication (register/login).  
+- 🔐 Implemented Role-Based Authorization across MERN Stack.
+- 🗂️ Categorize and filter posts. 
+- 💬 Add comments on posts. 
+- 📈 Tracked and displayed post view counts per visit.
+- 🔄 Infinite scroll with filters.
+- 📱 Responsive design for all devices.
+- 🔎 Added React 19 search bar with URL param syncing.
+- 🧑🏻 Added Profile section for everyone.
+- 📈 Added posts, comments, saved and stats(Analytics) section to UserProfiles and for PublicProfiles Added posts, comments and stats sections.
+- 🔃 Added Skeletons to Profiles.
 
 ---
 
-## 📌 Project Status
-
-🧬 This project is still under construction, but it will be finished later.
-
-<img src="https://i.pinimg.com/originals/67/60/90/6760900d6e002a489f5a9b43cf3c280f.gif" alt="Under Construction" width="600" height="430"/>
+<img src="/client/public/FableNest-homepage.gif" alt="FableNest-Landingpage" width="800" height="482"/>
 
 ---
 
@@ -56,6 +55,7 @@ MERN-BLOGGING-PLATFORM/
 │   │   ├── comment.controller.js
 │   │   ├── post.controller.js
 │   │   ├── user.controller.js
+│   │   ├── analytics.controller.js
 │   │   └── webhook.controller.js
 │   │
 │   ├── lib/
@@ -70,6 +70,7 @@ MERN-BLOGGING-PLATFORM/
 │   │   └── user.model.js
 │   │
 │   ├── routes/
+│   │   ├── analytics.route.js
 │   │   ├── comment.route.js
 │   │   ├── post.route.js
 │   │   ├── user.route.js
@@ -87,14 +88,27 @@ MERN-BLOGGING-PLATFORM/
 │   │
 │   ├── src/
 │   │   ├── components/
-│   │   │   │    ├── ui/
-│   │   │   │   ├── background-lines.jsx
-│   │   │   │   ├── FeaturedPosts.jsx
-│   │   │   │   └── flip-words.jsx
+│   │   │   │   ├── skeltons/
+│   │   │   │   │   ├── SkeletonCircle.jsx
+│   │   │   │   │   ├── SkeletonRect.jsx
+│   │   │   │   │   └── SkeletonText.jsx
+│   │   │   │   └── ui/
+│   │   │   │       ├── background-lines.jsx
+│   │   │   │       ├── FeaturedPosts.jsx
+│   │   │   │       ├── beckground-breams.tsx
+│   │   │   │       ├── flip-words.jsx
+│   │   │   │       ├── meteors.jsx
+│   │   │   │       ├── placeholders-and-vanish-input.jsx
+│   │   │   │       ├── scroll-to-top.jsx
+│   │   │   │       ├── text-hover-effect.jsx
+│   │   │   │       └── typewriter-effect.jsx
+│   │   │   │ 
 │   │   │   │ 
 │   │   │   ├── Comment.jsx
 │   │   │   ├── Comments.jsx
 │   │   │   ├── FeaturedPosts.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── HeatmapCalender.jsx
 │   │   │   ├── Imag.jsx
 │   │   │   ├── MainCategories.jsx
 │   │   │   ├── Navbar.jsx
@@ -102,21 +116,33 @@ MERN-BLOGGING-PLATFORM/
 │   │   │   ├── PostListItem.jsx
 │   │   │   ├── PostMenuActions.jsx
 │   │   │   ├── Search.jsx
+│   │   │   ├── SharePost.jsx
 │   │   │   ├── SideMenu.jsx
-│   │   │   └── Upload.jsx
+│   │   │   ├── SideMenuSearch.jsx
+│   │   │   ├── StatCard.jsx
+│   │   │   ├── Upload.jsx
+│   │   │   ├── UserBioEditor.jsx
+│   │   │   ├── WeeklyStatsChart.jsx
+│   │   │   └── YearSelector.jsx
 │   │   │
 │   │   ├── layouts/
 │   │   │   └── MainLayout.jsx
 │   │   │
 │   │   ├── lib/
-│   │   │   └── utils.ts
+│   │   │   ├── shareLinks.js
+│   │   │   ├── utils.ts
+│   │   │   └── validateInput.js
 │   │   │
 │   │   ├── routes/
+│   │   │   ├── About.jsx
 │   │   │   ├── Homepage.jsx
 │   │   │   ├── LoginPage.jsx
+│   │   │   ├── NotFound.jsx
 │   │   │   ├── PostListPage.jsx
+│   │   │   ├── PublicProfilePage.jsx
 │   │   │   ├── RegisterPage.jsx
 │   │   │   ├── SinglePostPage.jsx
+│   │   │   ├── UserProfilePage.jsx
 │   │   │   └── Write.jsx
 │   │   │
 │   │   ├── App.jsx

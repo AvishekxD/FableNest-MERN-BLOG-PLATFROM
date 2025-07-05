@@ -1,7 +1,5 @@
 # Frontend of FableNest 🎈
 
-<img src="/client/public/FableNest-homepage.gif" alt="FableNest-Landingpage" width="700" height="402"/>
-
 ---
 
 ## 🛠️ Tech Stack - Frontend (`client/`)
@@ -11,7 +9,7 @@
 - TailwindCSS  
 - Motion
 - Clerk
-- ImageKit(for Image Optimization), browser-image-compression
+- ImageKit(for Image Optimization), browser-image-compression and for Image db.
 
 ---
 
@@ -23,7 +21,31 @@
 cd client
 npm install 
 
-2. Other dependencies and component Used
+2. Setup .env 
+  client :-
+    VITE_IK_URL_ENDPOINT=
+    VITE_IK_PUBLIC_KEY=
+    VITE_CLERK_PUBLISHABLE_KEY=
+    VITE_API_URL=
+  backend :-
+    MONGO=
+    CLERK_WEBHOOK_SECRET=
+    CLERK_PUBLISHABLE_KEY=
+    CLERK_SECRET_KEY=
+
+    CLIENT_URL=
+
+    IK_URL_ENDPOINT =
+    IK_PUBLIC_KEY =
+    IK_PRIVATE_KEY =
+
+Note : don't forget add clerk webhook :D
+
+3. Run development server
+
+npm run dev
+
+Other dependencies and component Used ("For educational purpose")
 
 npm i react-router-dom
 npm install @imagekit/react
@@ -47,48 +69,47 @@ npm install react-calendar-heatmap
 npm install date-fns
 npm install recharts
 
-2. Run development server
-
-npm run dev
-
-if you want to access in Smartphone
-
-On your PC, open Command Prompt or Terminal: ipconifg
-Look for your IPv4 address, e.g.: IPv4 Address. . . . . . . . . . : 192.168.1.10
-
-npm run dev -- --host
-
-In -> vite.config.js
-
-export default defineConfig({
-  server: {
-    host: '0.0.0.0',
-    port: 5173
-  }
-});
-
-http://192.168.1.10:5173
 ```
+
+## 📌 Project Status
+
+🧬 Project is completed, and i will be add new fetures later.
+
+<img src="https://i.pinimg.com/originals/67/60/90/6760900d6e002a489f5a9b43cf3c280f.gif" alt="Under Construction" width="600" height="430"/>
+
+
 ---
 
 ## 📁 Folder Structure
 
 ```txt
 client/
-│
 ├── public/
-│   └── index.html
+├── node_modules/
 │
 ├── src/
 │   ├── components/
-│   │   ├── ui/
-│   │   │   ├── background-lines.jsx
-│   │   │   ├── FeaturedPosts.jsx
-│   │   │   └── flip-words.jsx
+│   │   │   ├── skeltons/
+│   │   │   │   ├── SkeletonCircle.jsx
+│   │   │   │   ├── SkeletonRect.jsx
+│   │   │   │   └── SkeletonText.jsx
+│   │   │   └── ui/
+│   │   │       ├── background-lines.jsx
+│   │   │       ├── FeaturedPosts.jsx
+│   │   │       ├── beckground-breams.tsx
+│   │   │       ├── flip-words.jsx
+│   │   │       ├── meteors.jsx
+│   │   │       ├── placeholders-and-vanish-input.jsx
+│   │   │       ├── scroll-to-top.jsx
+│   │   │       ├── text-hover-effect.jsx
+│   │   │       └── typewriter-effect.jsx
+│   │   │ 
 │   │   │ 
 │   │   ├── Comment.jsx
 │   │   ├── Comments.jsx
 │   │   ├── FeaturedPosts.jsx
+│   │   ├── Footer.jsx
+│   │   ├── HeatmapCalender.jsx
 │   │   ├── Imag.jsx
 │   │   ├── MainCategories.jsx
 │   │   ├── Navbar.jsx
@@ -96,36 +117,48 @@ client/
 │   │   ├── PostListItem.jsx
 │   │   ├── PostMenuActions.jsx
 │   │   ├── Search.jsx
+│   │   ├── SharePost.jsx
 │   │   ├── SideMenu.jsx
-│   │   └── Upload.jsx
-│   │ 
+│   │   ├── SideMenuSearch.jsx
+│   │   ├── StatCard.jsx
+│   │   ├── Upload.jsx
+│   │   ├── UserBioEditor.jsx
+│   │   ├── WeeklyStatsChart.jsx
+│   │   └── YearSelector.jsx
+│   │
 │   ├── layouts/
 │   │   └── MainLayout.jsx
 │   │
 │   ├── lib/
-│   │   └── utils.ts
+│   │   ├── shareLinks.js
+│   │   ├── utils.ts
+│   │   └── validateInput.js
 │   │
 │   ├── routes/
+│   │   ├── About.jsx
 │   │   ├── Homepage.jsx
 │   │   ├── LoginPage.jsx
+│   │   ├── NotFound.jsx
 │   │   ├── PostListPage.jsx
+│   │   ├── PublicProfilePage.jsx
 │   │   ├── RegisterPage.jsx
 │   │   ├── SinglePostPage.jsx
+│   │   ├── UserProfilePage.jsx
 │   │   └── Write.jsx
 │   │
 │   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
+│   ├── index.css
+│   └── main.jsx
 │
 ├── .env
 ├── .gitignore
-├── eslint.config.js
 ├── index.html
+├── eslint.config.js
+├── tailwind.config.js
+├── postcss.config.js
+├── vite.config.js
 ├── package.json
 ├── package-lock.json
-├── postcss.config.js
-├── tailwind.config.js
-├── vite.config.js
 └── README.md
 ```
 ---
