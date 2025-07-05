@@ -3,7 +3,6 @@ import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 import { subDays, format, startOfYear, endOfYear, eachDayOfInterval } from "date-fns";
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
 import YearSelector from "./YearSelector";
 
 const HeatmapCalendar = ({ data, onYearChange }) => {

@@ -8,9 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Upload from "../components/Upload";
 import { BackgroundBeams } from "../components/ui/background-beams";
-import { TypewriterEffectSmooth} from "../components/ui/typewriter-effect";
+import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect";
 import { sanitizeInput } from "../lib/validateInput";
 import ReactMarkdown from "react-markdown";
+import { Tooltip } from "react-tooltip";
 
 const Write = () => {
   const { isLoaded, isSignedIn } = useUser();
@@ -25,31 +26,20 @@ const Write = () => {
   const [videoURL, setVideoURL] = useState("");
   const [inputValue, setInputValue] = useState("");
 
+  const MAX_TITLE = 250;
+  const MAX_DESC = 500;
+  const MAX_CONTENT = 20000;
+
+  const allowedTitleRegex =
+    /^[\p{L}\p{N}\p{Emoji_Presentation} .,:!?'"’“”\-–—\u200d]+$/u;
+
   const words = [
-    {
-      text: "Craft ",
-      className: "text-black dark:text-white/75",
-    },
-    {
-      text: "digital ", 
-      className: "text-black dark:text-white/75",
-    },
-    {
-      text: "stories ", 
-      className: "text-black dark:text-white/75",
-    },
-    {
-      text: "beautifully ", 
-      className: "text-black dark:text-white/75",
-    },
-    {
-      text: "with — ", 
-      className: "text-black dark:text-white/75",
-    },
-    {
-      text: "FableNest",
-      className: "text-blue-500 dark:text-blue-500",
-    },
+    { text: "Craft ", className: "text-black dark:text-white/75" },
+    { text: "digital ", className: "text-black dark:text-white/75" },
+    { text: "stories ", className: "text-black dark:text-white/75" },
+    { text: "beautifully ", className: "text-black dark:text-white/75" },
+    { text: "with — ", className: "text-black dark:text-white/75" },
+    { text: "FableNest", className: "text-blue-500 dark:text-blue-500" },
   ];
 
   useEffect(() => {
@@ -67,22 +57,17 @@ const Write = () => {
   }, [video]);
 
   useEffect(() => {
-  if (progress === 100) {
-      const timer = setTimeout(() => {
-        setProgress(0);
-      }, 0);
+    if (progress === 100) {
+      const timer = setTimeout(() => setProgress(0), 0);
       return () => clearTimeout(timer);
     }
   }, [progress]);
-
 
   const mutation = useMutation({
     mutationFn: async (newPost) => {
       const token = await getToken();
       return axios.post(`${import.meta.env.VITE_API_URL}/posts`, newPost, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
     },
     onSuccess: (res) => {
@@ -92,40 +77,58 @@ const Write = () => {
   });
 
   const convertToEmbed = (url) => {
-  try {
-    if (url.includes("youtube.com") || url.includes("youtu.be")) {
-      const videoId = url.includes("v=")
-        ? url.split("v=")[1].split("&")[0]
-        : url.split("/").pop();
-      return `<p><iframe class="ql-video" width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe></p>`;
+    try {
+      if (url.includes("youtube.com") || url.includes("youtu.be")) {
+        const videoId = url.includes("v=")
+          ? url.split("v=")[1].split("&")[0]
+          : url.split("/").pop();
+        return `<p><iframe class="ql-video" width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe></p>`;
+      }
+      if (url.includes("vimeo.com")) {
+        const videoId = url.split("/").pop();
+        return `<p><iframe class="ql-video" width="560" height="315" src="https://player.vimeo.com/video/${videoId}" frameborder="0" allowfullscreen></iframe></p>`;
+      }
+      toast.error("Invalid video URL");
+      return "";
+    } catch (err) {
+      toast.error("Error parsing video URL");
+      return "";
     }
-    if (url.includes("vimeo.com")) {
-      const videoId = url.split("/").pop();
-      return `<p><iframe class="ql-video" width="560" height="315" src="https://player.vimeo.com/video/${videoId}" frameborder="0" allowfullscreen></iframe></p>`;
-    }
-    toast.error("Invalid video URL");
-    return "";
-  } catch (err) {
-    toast.error("Error parsing video URL");
-    return "";
-  }
-};
+  };
 
+  const tooltipMessage = (
+    <>
+      Welcome to FableNest ✨ <br />
+      <br />
+      Our goal is to build a positive and supportive community where creativity
+      shines. <br />
+      When you share, please keep it kind and constructive. <br />
+      Content that is vulgar, suspicious, or targets others doesn't align with
+      our values <br />
+      and can take away from the great experience we want for everyone. <br />
+      <br />
+      Thanks for understanding, <br />- FableNest Team
+    </>
+  );
 
-  if (!isLoaded) return <div className="text-white">Loading...</div>;
-  if (isLoaded && !isSignedIn) return <div className="text-white">You should login!</div>;
-
-  const MAX_TITLE = 250;
-  const MAX_DESC = 500;
-  const MAX_CONTENT = 10000;
-
-const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-
     const rawTitle = formData.get("title")?.trim() || "";
     const rawDesc = formData.get("desc")?.trim() || "";
     const rawContent = value?.trim() || "";
+
+    if (!allowedTitleRegex.test(rawTitle)) {
+      toast.error(
+        "Title contains invalid characters. Only letters, numbers, emojis, spaces, and hyphens are allowed."
+      );
+      return;
+    }
+
+    if (rawTitle.length < 7) {
+      toast.error("Title must be at least 7 characters long.");
+      return;
+    }
 
     if (rawTitle.length > MAX_TITLE) {
       toast.error(`Title must be under ${MAX_TITLE} characters.`);
@@ -142,34 +145,53 @@ const handleSubmit = (e) => {
       return;
     }
 
-    const title = <ReactMarkdown>{sanitizeInput(rawTitle, MAX_TITLE)}</ReactMarkdown>;
-    const desc = <ReactMarkdown>{sanitizeInput(rawDesc, MAX_DESC)}</ReactMarkdown>;
-    const content = <ReactMarkdown>{sanitizeInput(rawContent, MAX_CONTENT)}</ReactMarkdown>;
-
-    if (!title || !desc || !content) {
-      toast.error("Please fill all fields with valid input.");
-      return;
-    }
     const data = {
       img: cover?.filePath || "",
-      title: formData.get("title")?.trim(),
+      title: rawTitle,
       category: formData.get("category"),
-      desc: formData.get("desc"),
+      desc: rawDesc,
       content: value,
     };
-
-    if (!title || !desc || !content) {
-      toast.error("Please fill all fields with valid input.");
-      return;
-    }
 
     mutation.mutate(data);
   };
 
+  if (!isLoaded) return <div className="text-white">Loading...</div>;
+  if (isLoaded && !isSignedIn)
+    return <div className="text-white">You should login!</div>;
+
   return (
     <div className="h-[calc(100vh-64px)] md:h-[calc(100vh-80px)] flex flex-col gap-4">
-      <h1 className="text-xl font-light">Create a New Post</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-1 mb-6 min-h-0 md:min-h-screen">
+      <div className="flex flex-row gap-2 items-center">
+        <h1 className="text-xl font-light">Create a New Post</h1>
+        <span data-tooltip-id="info-tooltip">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="0.75"
+            stroke="currentColor"
+            className="w-4 h-4 text-gray-400 hover:text-[var(--Accent1)] transition-colors"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+            />
+          </svg>
+          <Tooltip
+            id="info-tooltip"
+            place="top"
+            effect="solid"
+            content={tooltipMessage}
+          />
+        </span>
+      </div>
+
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-6 flex-1 mb-6 min-h-0 md:min-h-screen"
+      >
         <Upload type="image" setProgress={setProgress} setData={setCover}>
           <button
             type="button"
@@ -178,22 +200,39 @@ const handleSubmit = (e) => {
             Add a cover image
           </button>
         </Upload>
+
         <div className="relative w-full">
           <input
             type="text"
-            placeholder=""
-            className="text-2xl font-semibold bg-transparent outline-none w-full z-10 text-lg sm:text-xl md:text-2xl lg:text-[33px] font-bold "
             name="title"
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e) => {
+              const val = e.target.value;
+              if (
+                val === "" ||
+                (allowedTitleRegex.test(val) && val.length <= MAX_TITLE)
+              ) {
+                setInputValue(val);
+              }
+            }}
+            placeholder=""
+            className={`text-2xl font-semibold bg-transparent outline-none w-full z-10 text-lg sm:text-xl md:text-2xl lg:text-[33px] font-bold ${
+              inputValue.length > 0 && inputValue.length < 7
+                ? "text-red-400"
+                : ""
+            }`}
           />
           {inputValue === "" && (
             <div className="absolute left-0 top-0 text-3xl font-semibold text-gray-400 pointer-events-none z-0">
-              <TypewriterEffectSmooth  words={words} />
+              <TypewriterEffectSmooth words={words} />
+            </div>
+          )}
+          {inputValue.length > 0 && inputValue.length < 7 && (
+            <div className="text-sm text-red-600 mt-1">
+              Title must be at least 7 characters long.
             </div>
           )}
         </div>
-        
 
         <div className="flex items-center gap-4">
           <label htmlFor="category" className="text-sm">
@@ -239,7 +278,6 @@ const handleSubmit = (e) => {
           >
             🎬 <p className="text-sm pt-0.5">Embed Video</p>
           </button>
-
         </div>
 
         <div className="flex flex-1">
@@ -279,38 +317,23 @@ const handleSubmit = (e) => {
                   )
                 `,
                 backgroundSize: "400% 400%",
-                animation: 'gradientShift 4s linear infinite',
+                animation: "gradientShift 4s linear infinite",
               }}
             />
           </div>
         )}
+
         {mutation.isError && (
-          <span className="text-sm text-red-400">
-            {mutation.error.message}
-          </span>
+          <span className="text-sm text-red-400">{mutation.error.message}</span>
         )}
       </form>
+
       {showEmbedPopup && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center">
           <BackgroundBeams />
           <div className="bg-[var(--secondary5)] border border-zinc-800 p-6 rounded-xl w-[480px] shadow-2xl text-white space-y-5 z-50">
             <h2 className="text-xl font-semibold tracking-wide flex flex-row gap-2 items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                className="w-5 h-5 text-zinc-950 hover:fill-white transition duration-200"
-                viewBox="0 0 24 24"
-              >
-                <path d="M10 15.5l6-3.5-6-3.5v7z" />
-                <path
-                  fill="white"
-                  fillRule="evenodd"
-                  d="M21.8 8.001c-.2-1.5-1.4-2.6-2.9-2.8-2.6-.3-6.9-.3-6.9-.3s-4.3 0-6.9.3c-1.5.2-2.7 1.3-2.9 2.8-.3 2.2-.3 4.5-.3 4.5s0 2.3.3 4.5c.2 1.5 1.4 2.6 2.9 2.8 2.6.3 6.9.3 6.9.3s4.3 0 6.9-.3c1.5-.2 2.7-1.3 2.9-2.8.3-2.2.3-4.5.3-4.5s0-2.3-.3-4.5zM9.5 16v-8l7 4-7 4z"
-                  clipRule="evenodd"
-                  className="hover:fill-red-500 transition duration-200"
-                />
-              </svg>
-              Embed a YouTube or Vimeo Video
+              🎬 Embed a YouTube or Vimeo Video
             </h2>
             <input
               type="text"
@@ -320,9 +343,8 @@ const handleSubmit = (e) => {
               className="w-full p-3 rounded-lg bg-[var(--Accent2)] hover:bg-[var(--secondary2)] transition duration-250 text-sm text-white border border-zinc-700 outline-none focus:ring-2 focus:ring-[var(--Accent2)]"
             />
             <div className="flex justify-end gap-3 pt-2">
-              
               <button
-                className="px-5 py-2 rounded-lg bg-[var(--Accent2)] hover:bg-[var(--secondary2)] transition duration-150 ease-in-out text-sm font-medium shadow transition duration-150"
+                className="px-5 py-2 rounded-lg bg-[var(--Accent2)] hover:bg-[var(--secondary2)] transition duration-150 ease-in-out text-sm font-medium shadow"
                 onClick={() => {
                   const embed = convertToEmbed(videoURL);
                   if (embed) {
@@ -335,7 +357,7 @@ const handleSubmit = (e) => {
                 Embed Video
               </button>
               <button
-                className="px-5 py-2 rounded-lg bg-[var(--Accent2)] hover:bg-[var(--secondary2)] transition duration-150 ease-in-out text-sm tracking-wide"
+                className="px-5 py-2 rounded-lg bg-[var(--Accent2)] hover:bg-[var(--secondary2)] transition duration-150 ease-in-out text-sm"
                 onClick={() => {
                   setVideoURL("");
                   setShowEmbedPopup(false);
