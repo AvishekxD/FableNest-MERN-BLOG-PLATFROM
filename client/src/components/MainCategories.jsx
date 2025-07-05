@@ -6,8 +6,11 @@ const categories = [
   { label: "Web Design", query: "web-design" },
   { label: "Marketing", query: "marketing" },
   { label: "Development", query: "development" },
-  { label: "Databases", query: "databases" },
-  { label: "Search Engines", query: "seo" },
+  { label: "Productivity", query: "productivity" },
+  { label: "Photography", query: "photography" },
+  { label: "Internship Stories", query: "internship-stories" },
+  { label: "News & Updates", query: "news-updates" },
+  { label: "Minimalist", query: "minimalist" },
 ];
 
 const MainCategories = () => {

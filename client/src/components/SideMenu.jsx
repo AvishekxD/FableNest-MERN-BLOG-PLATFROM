@@ -83,9 +83,12 @@ const SideMenu = () => {
             <span className="underline cursor-pointer" onClick={()=>handleCategoryChange("general")}>All</span>
             <span className="underline cursor-pointer" onClick={()=>handleCategoryChange("web-design")}>Web Design</span>
             <span className="underline cursor-pointer" onClick={()=>handleCategoryChange("development")}>Development</span>
-            <span className="underline cursor-pointer" onClick={()=>handleCategoryChange("databases")}>Databases</span>
-            <span className="underline cursor-pointer" onClick={()=>handleCategoryChange("seo")}>Search Engines</span>
+            <span className="underline cursor-pointer" onClick={()=>handleCategoryChange("productivity")}>Productivity</span>
             <span className="underline cursor-pointer" onClick={()=>handleCategoryChange("marketing")}>Marketing</span>
+            <span className="underline cursor-pointer" onClick={()=>handleCategoryChange("photography")}>Photography</span>
+            <span className="underline cursor-pointer" onClick={()=>handleCategoryChange("internship-stories")}>Internship stories</span>
+            <span className="underline cursor-pointer" onClick={()=>handleCategoryChange("minimalist")}>Minimalist</span>
+            <span className="underline cursor-pointer" onClick={()=>handleCategoryChange("news-updates")}>News & Updates</span>
       </div>    
     </div>
   )

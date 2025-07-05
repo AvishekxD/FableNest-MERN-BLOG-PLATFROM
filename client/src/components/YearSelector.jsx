@@ -35,7 +35,7 @@ const YearSelector = ({ onSelectYear, selectedYear }) => {
             <select
                 value={internalSelectedYear}
                 onChange={handleChange}
-                className="appearance-none bg-[var(--secondary2)] border border-neutral-700 text-white py-1.5 pl-3 pr-8 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer text-sm"
+                className="appearance-none bg-[var(--secondary2)] border border-neutral-700 text-white py-1.5 pl-3 pr-8 rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-600 focus:border-transparent cursor-pointer text-sm"
             >
                 <option value={currentYear}>Current ({currentYear})</option>
                 {availablePastYears.map((year) => (

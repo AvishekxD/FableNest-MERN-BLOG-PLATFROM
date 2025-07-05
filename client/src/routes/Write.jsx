@@ -207,9 +207,12 @@ const handleSubmit = (e) => {
             <option value="general">General</option>
             <option value="web-design">Web Design</option>
             <option value="development">Development</option>
-            <option value="databases">Databases</option>
-            <option value="seo">Search Engines</option>
+            <option value="productivity">Productivity</option>
+            <option value="photography">Photography</option>
             <option value="marketing">Marketing</option>
+            <option value="internship-stories">Internship Stories</option>
+            <option value="news-updates">News & Updates</option>
+            <option value="minimalist">Minimalist</option>
           </select>
         </div>
 

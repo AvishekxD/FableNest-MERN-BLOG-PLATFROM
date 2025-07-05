@@ -47,9 +47,10 @@ const Search = () => {
       <PlaceholdersAndVanishInput
         placeholders={[
           "Search amazing posts...",
-          "Type your title...",
+          "Type post title...",
           "Find people using @author",
           "Find authors all Post #author",
+          "@avishekxd",
         ]}
         onSubmit={(e) => {
           e.preventDefault();

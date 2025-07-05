@@ -11,7 +11,7 @@ import HeatmapCalendar from "../components/HeatmapCalendar";
 import WeeklyStatsChart from "../components/WeeklyStatsChart";
 import YearSelector from "../components/YearSelector";
 import { parseISO, format, subDays, startOfYear, endOfYear, endOfDay } from "date-fns";
-
+import SkeletonText from "../components/skeletons/SkeletonText";
 
 function stripHtml(html) {
   const div = document.createElement("div");
@@ -121,7 +121,7 @@ const UserProfilePage = () => {
       }
     };
 
-    if (section === "comments") {
+    if (section === "comments" ) {
       fetchUserComments();
     } else if (section === "saved") {
       fetchSavedPosts();
@@ -178,7 +178,7 @@ const UserProfilePage = () => {
       </div>
 
       <div className="relative overflow-hidden flex gap-3 justify-center md:justify-start mb-6 bg-[var(--secondary4)] rounded-xl p-6">
-        {["posts", "comments", "saved", "stats"].map((item) => (
+        {[ "posts", "stats", "comments", "saved"].map((item) => (
           <button
             key={item}
             onClick={() => setSection(item)}
@@ -198,7 +198,12 @@ const UserProfilePage = () => {
           <div>
             <h3 className="text-xl font-semibold mb-2">Your Posts</h3>
             {loading ? (
-              <p className="text-muted-foreground">Loading your posts...</p>
+              <div className="grid md:grid-cols-2 gap-4 mt-4">
+                <SkeletonText width="100%" height="100px" className="mb-2" />
+                <SkeletonText width="100%" height="100px" className="mb-2" />
+                <SkeletonText width="100%" height="100px" className="mb-2" />
+                <SkeletonText width="100%" height="100px" className="mb-2" />
+              </div>
             ) : userPosts.length === 0 ? (
               <p className="text-muted-foreground">You haven't posted anything yet.</p>
             ) : (
@@ -228,7 +233,12 @@ const UserProfilePage = () => {
           <div>
             <h3 className="text-xl font-semibold mb-2">Saved Posts</h3>
             {loading ? (
-              <p className="text-muted-foreground">Loading saved posts...</p>
+              <div className="grid md:grid-cols-2 gap-4 mt-4">
+                <SkeletonText width="100%" height="100px" className="mb-2" />
+                <SkeletonText width="100%" height="100px" className="mb-2" />
+                <SkeletonText width="100%" height="100px" className="mb-2" />
+                <SkeletonText width="100%" height="100px" className="mb-2" />
+              </div>
             ) : savedPosts.length === 0 ? (
               <p className="text-muted-foreground">No saved posts yet.</p>
             ) : (
@@ -256,6 +266,15 @@ const UserProfilePage = () => {
         )}
 
         {section === "comments" && (
+          loading ? (
+            <ul className="grid gap-4 mt-4">
+              <SkeletonText width="100%" height="120px" className="mb-2" />
+              <SkeletonText width="100%" height="120px" className="mb-2" />
+              <SkeletonText width="100%" height="120px" className="mb-2" />
+            </ul>
+          ) : userComments.length === 0 ? (
+              <p className="text-muted-foreground">You haven't received any comment yet.</p>
+          ) : 
           <ul className="grid gap-4 mt-4">
             {userComments.map((comment) => (
               <li

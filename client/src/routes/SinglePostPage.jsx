@@ -49,17 +49,21 @@ const SinglePostPage = () => {
           <h1 className="text-xl md:text-3xl xl:text-4xl 2xl:text-5xl font-semibold">{data.title}</h1>
           <div className="flex items-center gap-2 text-[var(--Accent)] text-sm">
             <span>Written by</span>
-            <Link className="text-indigo-300" to={`/id/${data.user.username}`}>{data.user.username}</Link>
+            <Link className="text-indigo-300" to={`/posts?author=${data.user.username}`}>{data.user.username}</Link>
             <span>on</span>
             <Link className="text-zinc-200">{data.category}</Link>
             <span>{format(data.createdAt)}</span>
           </div>
 
-          <div className="flex items-center gap-4 text-sm text-zinc-300 mt-2">
+          <div className="flex items-start flex-col gap-8 text-sm text-zinc-300 mt-2 ">
             <span className="bg-zinc-800 rounded-full px-3 py-1">
               📈 {data.visit || 0} views
             </span>
-            
+            {data.img && (
+              <div className="block lg:hidden w-3/5">
+                <Imag src={data.img} w="800" h="500" className="rounded-2xl" />
+              </div>
+            )}
           </div>
 
           <p className="text-[var(--Accent)] font-medium">{data.desc}</p>
@@ -84,7 +88,7 @@ const SinglePostPage = () => {
               {data.user.img && (
                 <Imag src={data.user.img} className="w-12 h-12 rounded-full object-cover" w="48" h="48" />
               )}
-              <Link className="text-indigo-300" to={`/posts?author=${data.user.username}`}>{data.user.username}</Link>
+              <Link className="text-indigo-300" to={`/id/${data.user.username}`}>{data.user.username}</Link>
             </div>
             <p className="text-sm text-zinc-200">Bringing you thoughtful articles and personal experiences.</p>
             <div className="flex gap-2">
@@ -97,12 +101,15 @@ const SinglePostPage = () => {
 
           <h1 className="mt-8 mb-4 text-sm font-medium">Categories</h1>
           <div className="flex flex-col gap-2 text-sm">
-            <Link className="underline">All</Link>
+            <Link className="underline" to="/posts">All</Link>
             <Link className="underline" to="/posts?cat=web-design">Web Design</Link>
-            <Link className="underline" to="/">Development</Link>
-            <Link className="underline" to="/">Databases</Link>
-            <Link className="underline" to="/">Search Engines</Link>
-            <Link className="underline" to="/">Marketing</Link>
+            <Link className="underline" to="/posts?cat=Development">Development</Link>
+            <Link className="underline" to="/posts?cat=productivity">Productivity</Link>
+            <Link className="underline" to="/posts?cat=internship-stories">Internship Stories</Link>
+            <Link className="underline" to="/posts?cat=marketing">Marketing</Link>
+            <Link className="underline" to="/posts?cat=minimalist">Minimalist</Link>
+            <Link className="underline" to="/posts?cat=photography">Photography</Link>
+
           </div>
 
           <h1 className="mt-8 mb-4 text-sm font-medium">Search</h1>
