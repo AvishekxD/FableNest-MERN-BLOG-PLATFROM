@@ -76,7 +76,8 @@ export const getCommentsByUser = async (req, res) => {
   try {
     const comments = await Comment.find({ user: req.params.userId })
       .sort({ createdAt: -1 })
-      .populate("post", "title slug");
+      .populate("post", "title slug")
+      .populate("user", "username _id");
     res.status(200).json(comments);
   } catch (error) {
     console.error("Failed to fetch user comments:", error);

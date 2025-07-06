@@ -281,7 +281,7 @@ const UserProfilePage = () => {
                 key={comment._id}
                 className="relative p-4 bg-[var(--secondary5)] rounded-md shadow"
               >
-                {(user.username === comment.user?.username || role === "admin") && (
+                {(comment.user?._id?.toString() === user.publicMetadata.mongoId  || role === "admin") && (
                   <button
                     onClick={() => handleDelete(comment._id)}
                     className="absolute top-2 right-2 text-[var(--Accent4)] hover:text-red-500 transition"

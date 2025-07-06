@@ -31,7 +31,7 @@ const Write = () => {
   const MAX_CONTENT = 20000;
 
   const allowedTitleRegex =
-    /^[\p{L}\p{N}\p{Emoji_Presentation} .,:!?'"’“”\-–—\u200d]+$/u;
+    /^[\p{L}\p{N}\p{Emoji_Presentation} .,:!?'"’“”&\-–—\u200d]+$/u;
 
   const words = [
     { text: "Craft ", className: "text-black dark:text-white/75" },
