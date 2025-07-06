@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
 import SideMenuSearch from "../components/SideMenuSearch";
 import { toast } from "react-toastify";
+import SinglePostPageSkeleton from "../components/skeletons/SinglePostPageSkeleton";
 
 const fetchPost = async (slug) => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${slug}`);
@@ -23,11 +24,12 @@ const SinglePostPage = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["post", slug],
     queryFn: () => fetchPost(slug),
+    enabled: !!slug,
   });
 
   useEffect(() => {
     const increaseViews = async () => {
-      if (data?._id) {
+       if (data?._id && !isPending && !error) {
         try {
           await axios.put(`${import.meta.env.VITE_API_URL}/posts/view/${data._id}`);
         } catch (err) {
@@ -36,9 +38,11 @@ const SinglePostPage = () => {
       }
     };
     increaseViews();
-  }, [data?._id]);
+  }, [data?._id, isPending, error]);
 
-  if (isPending) return "Loading...";
+  if (isPending) {
+    return <SinglePostPageSkeleton />;
+  }
   if (error) return "Something went wrong: " + error.message;
   if (!data) return "Post not found!";
 
@@ -51,7 +55,7 @@ const SinglePostPage = () => {
             <span>Written by</span>
             <Link className="text-indigo-300" to={`/posts?author=${data.user.username}`}>{data.user.username}</Link>
             <span>on</span>
-            <Link className="text-zinc-200">{data.category}</Link>
+            <Link className="text-zinc-200 hover:text-zinc-400 transition duration-200 ease-in-out" to={`/posts?cat=${data.category}`}>{data.category}</Link>
             <span>{format(data.createdAt)}</span>
           </div>
 

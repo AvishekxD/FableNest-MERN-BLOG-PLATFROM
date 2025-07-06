@@ -6,6 +6,7 @@ import { Link, Navigate, useSearchParams } from "react-router-dom";
 import { Meteors } from "./ui/meteors";
 import { motion } from "framer-motion";
 import { useMemo } from "react";
+import PostListSkeleton from "./skeletons/PostListSkeleton";
 
 
 const fetchPosts = async (pageParam, searchParams) => {
@@ -35,7 +36,7 @@ const PostList = () => {
       lastPage.hasMore ? pages.length + 1 : undefined,
   });
 
-  const stickers = [
+  const stickers = useMemo(() => [
     "https://ik.imagekit.io/uj7inhjax/HackerBoy1.png",
     "https://ik.imagekit.io/uj7inhjax/HackerBoy2.png",
     "https://ik.imagekit.io/uj7inhjax/HackerBoy3.png",
@@ -46,14 +47,19 @@ const PostList = () => {
     "https://ik.imagekit.io/uj7inhjax/HackerBoy8.png",
     "https://ik.imagekit.io/uj7inhjax/HackerBoy9.png",
     "https://ik.imagekit.io/uj7inhjax/HackerBoy10.png",
-  ];
+  ], []);
 
   const randomSticker = useMemo(() => {
     return stickers[Math.floor(Math.random() * stickers.length)];
-  }, []);
+  }, [stickers]);
 
-  if (status === "loading") return <p className="py-6 text-center">Loading...</p>;
-  if (status === "error") return <Navigate to="/not-found" />;
+  if (status === "pending") {
+    return <PostListSkeleton count={3} />; 
+  }
+
+  if (status === "error") {
+    return <Navigate to="/not-found" />;
+  }
 
   const allPosts = data?.pages?.flatMap((page) => page.posts) || [];
 
@@ -106,7 +112,7 @@ const PostList = () => {
       dataLength={allPosts.length}
       next={fetchNextPage}
       hasMore={!!hasNextPage}
-      loader={<h4 className="py-4 text-center">Loading more posts...</h4>}
+      loader={isFetchingNextPage ? <PostListSkeleton count={1} /> : null}
       endMessage={
         <p className="py-6 text-center text-muted-foreground">
           <b>That’s all for now — check back soon for more!</b>

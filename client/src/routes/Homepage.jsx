@@ -7,7 +7,7 @@ import Footer from "../components/Footer"
 
 const HomePage = () => {
   return (
-    
+
     <div className="flex flex-col gap-6">
       {/* BREADCRUMB */}
       <div className="flex gap-4">
@@ -16,7 +16,7 @@ const HomePage = () => {
         <span className="text-[var(--Accent)]">Blogs and Articles</span>
       </div>
       {/* INTRODUCTION */}
-      
+
       <div className="flex items-center justify-center flex-col text-center p-12">
         {/* titles */}
         <div className="flex items-center justify-center flex-col text-center px-4">
@@ -59,7 +59,7 @@ const HomePage = () => {
             </text>
 
           </svg>
-           <button className="absolute top-0 left-0 right-0 bottom-0 m-auto w-20 h-20 bg-white rounded-full flex items-center justify-center">
+          <button className="absolute top-0 left-0 right-0 bottom-0 m-auto w-20 h-20 bg-white rounded-full flex items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -76,16 +76,16 @@ const HomePage = () => {
         </Link>
       </div>
       {/* CATEGORIES */}
-      <MainCategories/>
+      <MainCategories />
       {/* FEATURED POSTS */}
-      <FeaturedPosts/>
+      <FeaturedPosts />
       {/* POST LIST */}
       <div className="">
         <h1 className="my-8 text-2xl text-[var(--Accent)]">Recent Posts</h1>
         <PostList />
       </div>
-      
-      <BackgroundLines  className="absolute inset-0 -z-10"/>
+
+      <BackgroundLines className="absolute inset-0 -z-10" />
       <Footer />
     </div>
   )
