@@ -1,49 +1,90 @@
-# FableNest - MERN Blogging Platform 📝
+# 🌐 FableNest – A Modern MERN Blogging Platform 📝
 
-FableNest : A full-featured blogging platform built using the MERN stack (MongoDB, Express.js, React.js, Node.js, clerk). This project allows users to create, read, update, and delete blog posts with a seamless user experience.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+![React](https://img.shields.io/badge/Frontend-React-blue)
+![Node.js](https://img.shields.io/badge/Backend-Node.js-green)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-brightgreen)
+![Clerk Auth](https://img.shields.io/badge/Auth-Clerk-orange)
+![TailwindCSS](https://img.shields.io/badge/Styling-TailwindCSS-38B2AC)
 
----
-
-## 🚀 Features Added
-
-- ✍️ Create, edit, and delete blog posts. 
-- 👤 User authentication (register/login).  
-- 🔐 Implemented Role-Based Authorization across MERN Stack.
-- 🗂️ Categorize and filter posts. 
-- 💬 Add comments on posts. 
-- 📈 Tracked and displayed post view counts per visit.
-- 🔄 Infinite scroll with filters.
-- 📱 Responsive design for all devices.
-- 🔎 Added React 19 search bar with URL param syncing.
-- 🧑🏻 Added Profile section for everyone.
-- 📈 Added posts, comments, saved and stats(Analytics) section to UserProfiles and for PublicProfiles Added posts, comments and stats sections.
-- 🔃 Added Skeletons to Profiles.
+**FableNest** is a full-featured blogging platform powered by the **MERN stack** (MongoDB, Express.js, React.js, Node.js) and enhanced with **Clerk** authentication. Users can easily write, edit, and share blog posts with an engaging and seamless experience.
 
 ---
 
-<img src="/client/public/FableNest-homepage.gif" alt="FableNest-Landingpage" width="800" height="482"/>
+## 🚀 Key Features
+
+- ✍️ Create, edit, and delete blog posts  
+- 👤 Secure user authentication (Register/Login via Clerk)  
+- 🔐 Role-based authorization implemented across the stack  
+- 🗂️ Categorize posts and apply filters  
+- 💬 Commenting system  
+- 📈 Post view count tracking  
+- 🔄 Infinite scroll with filters  
+- 📱 Fully responsive design  
+- 🔎 Smart search (React 19) with URL param syncing  
+- 🧑🏻 User profile section  
+- 📊 Analytics: posts, comments, saved items, and stats  
+- 🔃 Skeleton loading animations for profile and post sections
+
+---
+
+## 📸 Demo
+
+<img src="/client/public/FableNest-homepage.gif" alt="FableNest Homepage" width="800" height="482"/>
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Frontend (`client/`)
-- React.js  
-- Axios  
-- React Router DOM  
-- TailwindCSS  
-- Motion
-- Clerk
-- ImageKit(for Image Optimization)
+### 🖥️ Frontend (`client/`)
+- **React.js**  
+- **React Router DOM**  
+- **TailwindCSS**  
+- **Framer Motion**  
+- **Clerk (Auth)**  
+- **Axios**  
+- **ImageKit** *(Image Optimization)*  
 
-### Backend (`backend/`)
-- Node.js  
-- Express.js  
-- MongoDB with Mongoose  
-- JWT for authentication
-- Bcrypt for password hashing
+### 🔧 Backend (`backend/`)
+- **Node.js + Express.js**  
+- **MongoDB with Mongoose**  
+- **JWT** *(Authentication)*  
+- **Bcrypt** *(Password Hashing)*  
 
 ---
+
+## 📁 Folder Structure
+
+```bash
+MERN-BLOGGING-PLATFORM/
+├── backend/
+│   ├── controllers/
+│   ├── lib/
+│   ├── middlewares/
+│   ├── models/
+│   ├── routes/
+│   ├── .env
+│   └── index.js
+│
+├── client/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── skeltons/
+│   │   │   ├── ui/
+│   │   │   └── *.jsx (Post, Comment, Profile components)
+│   │   ├── layouts/
+│   │   ├── lib/
+│   │   ├── routes/
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── index.html
+│   ├── tailwind.config.js
+│   ├── vite.config.js
+│   └── .env
+│
+└── README.md
+
 
 ## 📁 Folder Structure
 
